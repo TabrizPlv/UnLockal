@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import EmptyStorePage from './Screens/EmptyStorePage';
+import EmptyStoreTemplate from './Screens/EmptyStoreTemplate';
 
 const Stack = createNativeStackNavigator();
 
@@ -12,8 +12,8 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name='EmptyStorePage'
-          component={EmptyStorePage}
+          name='EmptyStoreTemplate'
+          component={EmptyStoreTemplate}
           options={{
             headerShown: false,
           }}
