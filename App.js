@@ -3,17 +3,17 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import EmptyStoreTemplate from './Screens/EmptyStoreTemplate';
+import EmptyStorePage from './Screens/EmptyStorePage';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  return (
-    
+  return ( 
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name='EmptyStoreTemplate'
-          component={EmptyStoreTemplate}
+          name='EmptyStorePage'
+          component={EmptyStorePage}
           options={{
             headerShown: false,
           }}

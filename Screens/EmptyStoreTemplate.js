@@ -1,4 +1,5 @@
 import React from "react";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
   StyleSheet,
   Text,
@@ -16,9 +17,9 @@ import {
 export default function EmptyStorePage() {
   return (
     <SafeAreaView
-      style={{ backgroundColor: "pink", height: "100%", width: "100%" }}
+      style={{ backgroundColor: "pink", flex: 1}}
     >
-      <ScrollView>
+      <KeyboardAwareScrollView>
         <StatusBar barStyle="dark-content" />
         <View style={styles.StoreTitleView}>
           <TextInput
@@ -36,21 +37,21 @@ export default function EmptyStorePage() {
             source={require("../assets/QuestionMark.png")}
           />
         </ImageBackground>
-        <View style={styles.StoreTitleView}>
+        <View style={styles.DescriptionView}>
           <TextInput
             style={styles.DescriptionText}
             placeholder="Tap to add store description"
             placeholderTextColor={"black"}
           />
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
   StoreTitleView: {
     backgroundColor: "green",
-    height: Dimensions.get("window").height * 0.2,
+    height: Dimensions.get("window").height * 0.1,
     alignContent: "center",
     justifyContent: "center",
     marginTop: 32,
@@ -75,7 +76,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   DescriptionView: {
-    backgroundColor: "green",
+    backgroundColor: "grey",
     height: Dimensions.get("window").height * 0.2,
     marginHorizontal: 10,
     borderRadius: 30,
@@ -87,4 +88,11 @@ const styles = StyleSheet.create({
     color: "yellow",
     textAlign: "center",
   },
+  ButtonView : {
+    height : Dimensions.get('window') * 0.2,
+  },
+  DiscardButton: {
+    borderWidth : 10,
+    borderColor : 'black',
+  }
 });
