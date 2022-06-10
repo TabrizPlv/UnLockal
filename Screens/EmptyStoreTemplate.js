@@ -15,8 +15,8 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { db} from "../firebase";
-import { setDoc, doc } from "firebase/firestore";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { doc, updateDoc } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useNavigation } from '@react-navigation/core';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
@@ -26,7 +26,6 @@ onAuthStateChanged(auth, (user) => {
   if (user) {
     const uid = user.uid;
     currentUserUid = uid;
-  } else {
   }
 });
 
@@ -34,18 +33,34 @@ export default function EmptyStorePage() {
   //reference to Firebase Documents
   const [StoreTitle, setStoreTitle] = useState(null);
   const [StoreImage, setStoreImage] = useState(null);
+  const [StoreImageURL, setStoreImageURL] = useState(null);
   const [ImageSelected, setImageSelected] = useState(false);
   const [StoreDescription, setStoreDescription] = useState(null);
   const [GalleryPermission, setGalleryPermission] = useState(null);
   const navigation = useNavigation();
   
+  const getImageURL = async () => {
+    if (ImageSelected) {
+      const storage = getStorage();
+      const storageRef = ref(storage, '/StoreImages');
+      const reference = ref(storageRef, currentUserUid);
+      await getDownloadURL(reference).then(url => {setStoreImageURL(url)});
+      console.log(StoreImageURL);
+    } else {
+      return setStoreImageURL(null);
+    }
+  }
+
   let Submit = async () => {
-    const docRef = await setDoc(doc(db, "users", currentUserUid), {
+    await getImageURL();
+    const docRef = await updateDoc(doc(db, "users", currentUserUid), {
       "StorePageDetails.StoreTitle": StoreTitle,
       "StorePageDetails.StoreDescription": StoreDescription,
+      "StorePageDetails.StoreImageURL" : StoreImageURL,
     });
     alert("Submit successful!");
   };
+
   //Only works if user does not decline the first time
   const pickImage = async () => {
     const GalleryStatus =
@@ -63,12 +78,13 @@ export default function EmptyStorePage() {
 
       if (!result.cancelled) {
         const storage = getStorage();
-        const storageRef = ref(storage, 'User_StorePageImage');
+        const storageRef = ref(storage, '/StoreImages');
+        const reference = ref(storageRef, currentUserUid);
         const img = await fetch(result.uri);
         const bytes = await img.blob();
         setStoreImage(result.uri);
         setImageSelected(true);
-        await uploadBytes(storageRef, bytes);
+        await uploadBytes(reference, bytes);
       }
     }
   };
