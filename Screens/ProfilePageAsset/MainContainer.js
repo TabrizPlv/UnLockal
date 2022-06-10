@@ -5,8 +5,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Screens
-import HomeScreenMarketPlace from './Screens/HomeScreenMarketPlace';
-import ProfilePage from './Screens/ProfilePage';
+import HomeScreenMarketPlace from '../HomeScreenMarketPlace';
+import ProfilePage from './ProfilePage';
 
 //Screen names
 const HomeScreenName = 'Home';
@@ -16,8 +16,7 @@ const Tab = createBottomTabNavigator();
 
 export default function MainContainer() {
   return (
-   
-        <Tab.Navigator initialRouteName={ProfilePageName}
+        <Tab.Navigator initialRouteName={HomeScreenMarketPlace}
          screenOptions={({route})=>({
             tabBarIcon : ({focused, color, size}) => {
                 let iconName;
@@ -36,6 +35,5 @@ export default function MainContainer() {
             <Tab.Screen name={HomeScreenName} component={HomeScreenMarketPlace}/>
             <Tab.Screen name={ProfilePageName} component={ProfilePage}/>
         </Tab.Navigator>
-   
   );
 }

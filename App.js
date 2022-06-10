@@ -1,11 +1,11 @@
-import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+//Screens
 import EmptyStoreTemplate from "./Screens/EmptyStoreTemplate";
 import EmptyStorePage from "./Screens/EmptyStorePage";
 import HomeScreenMarketPlace from "./Screens/HomeScreenMarketPlace";
-import MainContainer from './MainContainer';
+import MainContainer from './Screens/ProfilePageAsset/MainContainer';
 import LoginScreen from "./Screens/LoginScreen";
 
 const Stack = createNativeStackNavigator();
@@ -14,8 +14,11 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen options ={{ headerShown: false}} name="Login" component={LoginScreen} /> 
-        <Stack.Screen name="MainContainer" component={MainContainer} /> 
+        <Stack.Screen options ={{headerShown: false}} name="Login" component={LoginScreen} /> 
+        <Stack.Screen options ={{headerShown : false}} name="MainContainer" component={MainContainer}/> 
+        <Stack.Screen options ={{headerShown : false}} name="EmptyStoreTemplate" component={EmptyStoreTemplate}/>
+        <Stack.Screen options ={{headerShown : false}} name="EmptyStorePage" component={EmptyStorePage}/>
+        <Stack.Screen options ={{headerShown : false}} name="HomeScreenMarketPlace" component={HomeScreenMarketPlace}/>   
       </Stack.Navigator>
     </NavigationContainer>
   );

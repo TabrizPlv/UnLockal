@@ -9,8 +9,8 @@ import {
   Dimensions,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-//import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { auth } from '../firebase'
+  
+import { auth } from '../../firebase'
 import { useNavigation } from '@react-navigation/core'
 
 const screenHeight = Dimensions.get("screen").height;
@@ -28,7 +28,6 @@ export default function ProfilePage({ navigation }) {
       .catch(error => alert(error.message))
 
   }
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -41,7 +40,7 @@ export default function ProfilePage({ navigation }) {
       >
         <Image
           style={styles.userImage}
-          source={require("../assets/OrbitalLogo.jpg")}
+          source={require('../../assets/OrbitalLogo.jpg')}
         />
         <View style={styles.usernameView}>
           <Text style={styles.usernameText}>Signed In With: {auth.currentUser?.email}</Text>
@@ -65,7 +64,7 @@ export default function ProfilePage({ navigation }) {
           style={styles.buttonStyle}
           name="store-search"
           backgroundColor="#de5147"
-          onPress={() =>{alert('Directed to edit profile page')}}
+          onPress={() => navigationn.navigate('EmptyStorePage')}
           size={30}
         >
           <Text style={styles.buttonText}>View Store</Text>
@@ -78,7 +77,7 @@ export default function ProfilePage({ navigation }) {
           style={styles.buttonStyle}
           name="store-edit"
           backgroundColor="#de5147"
-          onPress={() =>{alert('Directed to edit profile page')}}
+          onPress={() => navigationn.navigate('EmptyStoreTemplate')}
           size={30}
         >
           <Text style={styles.buttonText}>Edit Store</Text>
@@ -102,7 +101,7 @@ export default function ProfilePage({ navigation }) {
         <View style={styles.buttonView}>
           <Icon.Button
           style={styles.buttonStyle}
-          name="sign-out"
+          name="logout"
           backgroundColor="#de5147"
           onPress={handleSignOut}
           size={30}

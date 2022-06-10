@@ -17,6 +17,7 @@ import * as ImagePicker from "expo-image-picker";
 import { db } from "../firebase";
 import { setDoc, doc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { useNavigation } from '@react-navigation/core';
 
 export default function EmptyStorePage() {
   //reference to Firebase Documents
@@ -25,7 +26,8 @@ export default function EmptyStorePage() {
   const [ImageSelected, setImageSelected] = useState(false);
   const [StoreDescription, setStoreDescription] = useState(null);
   const [GalleryPermission, setGalleryPermission] = useState(null);
-
+  const navigation = useNavigation();
+  
   let Submit = async () => {
     //replace 'tester1' with user's id/email
     const docRef = await setDoc(doc(db, "StorePageDetails", "tester1"), {
@@ -101,7 +103,7 @@ export default function EmptyStorePage() {
         </View>
         <View style={styles.ButtonView}>
           <View style={styles.CancelButton}>
-            <Pressable onPress={() => alert("Discarded")}>
+            <Pressable onPress={() => navigation.navigate('MainContainer')}>
               <Text style={styles.ButtonText}>Cancel</Text>
             </Pressable>
           </View>
