@@ -16,7 +16,7 @@ const Tab = createBottomTabNavigator();
 
 export default function MainContainer() {
   return (
-    <NavigationContainer>
+   
         <Tab.Navigator initialRouteName={ProfilePageName}
          screenOptions={({route})=>({
             tabBarIcon : ({focused, color, size}) => {
@@ -36,6 +36,6 @@ export default function MainContainer() {
             <Tab.Screen name={HomeScreenName} component={HomeScreenMarketPlace}/>
             <Tab.Screen name={ProfilePageName} component={ProfilePage}/>
         </Tab.Navigator>
-    </NavigationContainer>
+   
   );
 }

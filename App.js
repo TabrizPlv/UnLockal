@@ -6,11 +6,18 @@ import EmptyStoreTemplate from "./Screens/EmptyStoreTemplate";
 import EmptyStorePage from "./Screens/EmptyStorePage";
 import HomeScreenMarketPlace from "./Screens/HomeScreenMarketPlace";
 import MainContainer from './MainContainer';
+import LoginScreen from "./Screens/LoginScreen";
 
 const Stack = createNativeStackNavigator();
+
 export default function App() {
   return (
-    <MainContainer/>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen options ={{ headerShown: false}} name="Login" component={LoginScreen} /> 
+        <Stack.Screen name="MainContainer" component={MainContainer} /> 
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 

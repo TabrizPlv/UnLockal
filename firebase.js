@@ -1,6 +1,7 @@
 //import * as firebase from 'firebase';
 import { initializeApp } from "firebase/app"
 import { getFirestore } from 'firebase/firestore';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth"
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -16,11 +17,21 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const auth = getAuth();
 
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
+export function signup(email, password) {
+  return createUserWithEmailAndPassword(auth, email, password);
+}
+
+export function signin(email, password) {
+  return signInWithEmailAndPassword(auth, email, password);
+}
+
 export {
   db,
-  app
+  app,
+  auth
 };
