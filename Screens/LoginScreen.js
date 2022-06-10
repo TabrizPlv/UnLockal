@@ -10,8 +10,9 @@ import {
 import React, { useState, useEffect } from "react";
 import { signup, signin, auth } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
-import { styleProps } from "react-native-web/dist/cjs/modules/forwardedProps";
-import { Dimensions } from "react-native-web";
+import {setDoc, doc} from "firebase/firestore";
+import { db } from "../firebase";
+
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
@@ -33,6 +34,10 @@ const LoginScreen = () => {
     signup(email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
+        setDoc(doc(db, 'users', user.uid), {
+          userName : '',
+          haveStore : false,
+        });
         console.log("Registered with:", user.email);
       })
       .catch((error) => alert(error.message))

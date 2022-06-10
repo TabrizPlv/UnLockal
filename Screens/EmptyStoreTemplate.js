@@ -14,10 +14,11 @@ import {
   ImageBackground,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { db } from "../firebase";
+import { db, auth} from "../firebase";
 import { setDoc, doc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { useNavigation } from '@react-navigation/core';
+const currentUserUid = auth.currentUser.uid;
 
 export default function EmptyStorePage() {
   //reference to Firebase Documents
@@ -29,10 +30,9 @@ export default function EmptyStorePage() {
   const navigation = useNavigation();
   
   let Submit = async () => {
-    //replace 'tester1' with user's id/email
-    const docRef = await setDoc(doc(db, "StorePageDetails", "tester1"), {
-      StoreTitle: StoreTitle,
-      StoreDescription: StoreDescription,
+    const docRef = await setDoc(doc(db, "users", currentUserUid), {
+      "StorePageDetails.StoreTitle": StoreTitle,
+      "StorePageDetails.StoreDescription": StoreDescription,
     });
     alert("Submit successful!");
   };
