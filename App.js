@@ -7,6 +7,8 @@ import EmptyStorePage from "./Screens/EmptyStorePage";
 import HomeScreenMarketPlace from "./Screens/HomeScreenMarketPlace";
 import MainContainer from './MainContainer';
 import LoginScreen from "./Screens/LoginScreen";
+import ListProductsPage from "./Screens/ListProductsPage";
+import * as ImagePicker from "expo-image-picker";
 
 const Stack = createNativeStackNavigator();
 

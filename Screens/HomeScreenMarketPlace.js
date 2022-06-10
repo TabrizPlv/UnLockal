@@ -1,12 +1,27 @@
 import * as React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  SafeAreaView,
+  ScrollView,
+  Image,
+  Dimensions,
+} from "react-native";
+
+const screenHeight = Dimensions.get("screen").height;
+const screenWidth = Dimensions.get("screen").width;
 
 export default function HomeScreenMarketPlace({ navigation }) {
   return (
     <View style={styles.container}>
-      <View style={{ marginHorizontal: 10 }}>
+      <View style={{ marginHorizontal: 0 }}>
+        <Image
+          style={styles.userImage}
+          source={require("../assets/OrbitalLogo.jpg")}
+        />
         <Text style={styles.message}>
-          This is the market place. Implementation still in progress!
+          Coming Soon!
         </Text>
       </View>
     </View>
@@ -15,14 +30,17 @@ export default function HomeScreenMarketPlace({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "grey",
+    backgroundColor: "white",
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
   message: {
     color: "black",
-    borderWidth: 1,
-    borderColor: "black",
+    fontSize: 20,
+  },
+  userImage: {
+    height: screenHeight * 0.1,
+    width: screenWidth * 0.5,
   },
 });
