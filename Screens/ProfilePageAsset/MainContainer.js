@@ -28,8 +28,8 @@ export default function MainContainer() {
                     iconName = focused ? 'person' : 'person-outline'
                 }
                 return <Ionicons name={iconName} size={size} color={color}/>
-            }, tabBarStyle : {backgroundColor : '#fcc603'}, tabBarActiveTintColor : 'brown',
-                tabBarInactiveTintColor : '#543dff', headerShown : false,
+            }, tabBarStyle : {backgroundColor : 'white'}, tabBarActiveTintColor : 'teal',
+                tabBarInactiveTintColor : 'grey', headerShown : false,
          }) 
         }>
             <Tab.Screen name={HomeScreenName} component={HomeScreenMarketPlace}/>

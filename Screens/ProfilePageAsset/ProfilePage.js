@@ -38,10 +38,14 @@ export default function ProfilePage({ navigation }) {
         }}
         showsVerticalScrollIndicator={false}
       >
-        <Image
-          style={styles.userImage}
-          source={require('../../assets/OrbitalLogo.jpg')}
-        />
+        <View style = {styles.profilePic}>
+          <Icon
+            name = "account"
+            size = {200}>
+          </Icon>
+
+        </View>
+
         <View style={styles.usernameView}>
           <Text style={styles.usernameText}>Signed In With: {auth.currentUser?.email}</Text>
         </View>
@@ -50,7 +54,7 @@ export default function ProfilePage({ navigation }) {
           <Icon.Button
           style={styles.buttonStyle}
           name="account-edit"
-          backgroundColor="#de5147"
+          backgroundColor="teal"
           onPress={() =>{alert('Directed to edit profile page')}}
           size={30}
         >
@@ -63,7 +67,7 @@ export default function ProfilePage({ navigation }) {
           <Icon.Button
           style={styles.buttonStyle}
           name="store-search"
-          backgroundColor="#de5147"
+          backgroundColor="teal"
           onPress={() => navigationn.navigate('EmptyStorePage')}
           size={30}
         >
@@ -76,7 +80,7 @@ export default function ProfilePage({ navigation }) {
           <Icon.Button
           style={styles.buttonStyle}
           name="store-edit"
-          backgroundColor="#de5147"
+          backgroundColor="teal"
           onPress={() => navigationn.navigate('EmptyStoreTemplate')}
           size={30}
         >
@@ -89,7 +93,7 @@ export default function ProfilePage({ navigation }) {
           <Icon.Button
           style={styles.buttonStyle}
           name="package-variant-closed"
-          backgroundColor="#de5147"
+          backgroundColor="teal"
           onPress={() =>{alert('Directed to edit profile page')}}
           size={30}
         >
@@ -102,7 +106,7 @@ export default function ProfilePage({ navigation }) {
           <Icon.Button
           style={styles.buttonStyle}
           name="logout"
-          backgroundColor="#de5147"
+          backgroundColor="teal"
           onPress={handleSignOut}
           size={30}
         >
@@ -123,8 +127,6 @@ const styles = StyleSheet.create({
   userImage: {
     height: screenHeight * 0.2,
     width: screenWidth * 0.8,
-    borderWidth: 1,
-    borderRadius: 20,
     flex: 1,
     resizeMode: "contain",
   },
@@ -133,25 +135,22 @@ const styles = StyleSheet.create({
     width: screenWidth * 0.9,
   },
   usernameText: {
-    borderWidth: 1,
     marginTop: 10,
     textAlign: "center",
-    fontSize : 20,
+    fontSize : 15,
   },
   buttonView : {
-    height: screenHeight * 0.09,
+    height: screenHeight * 0.07,
     width: screenWidth * 0.9,
-    marginBottom : 10,
+    marginBottom : 20,
   },
   buttonStyle: {
     height : '100%',
     width : '100%',
-    borderColor : 'black',
-    borderWidth : 2
   },
   buttonText: {
     color: "black",
     fontFamily : "GillSans-SemiBold",
-    fontSize : 30,
+    fontSize : 20,
   },
 });
