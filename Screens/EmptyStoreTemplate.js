@@ -14,11 +14,21 @@ import {
   ImageBackground,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { db, auth} from "../firebase";
+import { db} from "../firebase";
 import { setDoc, doc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { useNavigation } from '@react-navigation/core';
-const currentUserUid = auth.currentUser.uid;
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+const auth = getAuth();
+let currentUserUid;
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    const uid = user.uid;
+    currentUserUid = uid;
+  } else {
+  }
+});
 
 export default function EmptyStorePage() {
   //reference to Firebase Documents
