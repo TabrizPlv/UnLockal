@@ -6,7 +6,7 @@ export default function HomeScreenMarketPlace({ navigation }) {
     <View style={styles.container}>
       <View style={{ marginHorizontal: 10 }}>
         <Text style={styles.message}>
-          This is the market place. Implementation still in progress!
+          Marketplace coming soon!
         </Text>
       </View>
     </View>
@@ -15,14 +15,12 @@ export default function HomeScreenMarketPlace({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "grey",
+    backgroundColor: "white",
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
   message: {
     color: "black",
-    borderWidth: 1,
-    borderColor: "black",
   },
 });
