@@ -6,7 +6,6 @@ import {
   TextInput,
   View,
   Image,
-  ScrollView,
   SafeAreaView,
   Dimensions,
   StatusBar,
@@ -14,10 +13,10 @@ import {
   ImageBackground,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { db} from "../firebase";
+import { db } from "../firebase";
 import { doc, updateDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation } from "@react-navigation/core";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const auth = getAuth();
@@ -38,25 +37,28 @@ export default function EmptyStorePage() {
   const [StoreDescription, setStoreDescription] = useState(null);
   const [GalleryPermission, setGalleryPermission] = useState(null);
   const navigation = useNavigation();
-  
+
   const getImageURL = async () => {
     if (ImageSelected) {
       const storage = getStorage();
-      const storageRef = ref(storage, '/StoreImages');
+      const storageRef = ref(storage, "/StoreImages");
       const reference = ref(storageRef, currentUserUid);
-      await getDownloadURL(reference).then(url => {setStoreImageURL(url)});
+      await getDownloadURL(reference).then((url) => {
+        setStoreImageURL(url);
+      });
       console.log(StoreImageURL);
     } else {
       return setStoreImageURL(null);
     }
-  }
+  };
 
   let Submit = async () => {
-    await getImageURL();
+    getImageURL();
     const docRef = await updateDoc(doc(db, "users", currentUserUid), {
       "StorePageDetails.StoreTitle": StoreTitle,
       "StorePageDetails.StoreDescription": StoreDescription,
-      "StorePageDetails.StoreImageURL" : StoreImageURL,
+      "StorePageDetails.StoreImageURL": StoreImageURL,
+      haveStore: true,
     });
     alert("Submit successful!");
   };
@@ -78,7 +80,7 @@ export default function EmptyStorePage() {
 
       if (!result.cancelled) {
         const storage = getStorage();
-        const storageRef = ref(storage, '/StoreImages');
+        const storageRef = ref(storage, "/StoreImages");
         const reference = ref(storageRef, currentUserUid);
         const img = await fetch(result.uri);
         const bytes = await img.blob();
@@ -129,7 +131,7 @@ export default function EmptyStorePage() {
         </View>
         <View style={styles.ButtonView}>
           <View style={styles.CancelButton}>
-            <Pressable onPress={() => navigation.navigate('MainContainer')}>
+            <Pressable onPress={() => navigation.navigate("MainContainer")}>
               <Text style={styles.ButtonText}>Cancel</Text>
             </Pressable>
           </View>

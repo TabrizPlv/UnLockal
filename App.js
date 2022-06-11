@@ -7,6 +7,8 @@ import EmptyStorePage from "./Screens/EmptyStorePage";
 import HomeScreenMarketPlace from "./Screens/HomeScreenMarketPlace";
 import MainContainer from './Screens/ProfilePageAsset/MainContainer';
 import LoginScreen from "./Screens/LoginScreen";
+import ListProductsPage from "./Screens/ListProductsPage";
+import UpdatedStorePage from './Screens/UpdatedStorePage';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,7 +20,9 @@ export default function App() {
         <Stack.Screen options ={{headerShown : false}} name="MainContainer" component={MainContainer}/> 
         <Stack.Screen options ={{headerShown : false}} name="EmptyStoreTemplate" component={EmptyStoreTemplate}/>
         <Stack.Screen options ={{headerShown : false}} name="EmptyStorePage" component={EmptyStorePage}/>
-        <Stack.Screen options ={{headerShown : false}} name="HomeScreenMarketPlace" component={HomeScreenMarketPlace}/>   
+        <Stack.Screen options ={{headerShown : false}} name="HomeScreenMarketPlace" component={HomeScreenMarketPlace}/>
+        <Stack.Screen options ={{headerShown : false}} name="ListProductsPage" component={ListProductsPage}/>
+        <Stack.Screen options ={{headerShown : false}} name="UpdatedStorePage" component={UpdatedStorePage}/>        
       </Stack.Navigator>
     </NavigationContainer>
   );
