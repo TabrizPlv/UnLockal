@@ -1,29 +1,44 @@
 import { Injectable } from '@nestjs/common';
 import { Business } from '../schemas/business.schema';
 import { BusinessRepository } from '../schemas/business.repository';
-import { CreateStoreDto } from '../dtos/CreateStore.dto';
+import { UpdateStoreDto } from '../dtos/updateStore.dto';
+import { Listing } from '../schemas/listings.schema';
+import { Store } from '../schemas/store.schema';
+import { ObjectId } from 'mongoose';
+import { UpdateListingDto } from '../dtos/updateListing.dto';
 
 @Injectable()
 export class BusinessService {
   constructor(private readonly businessRepository : BusinessRepository) {}
 
-  async findBusiness(username : string) : Promise<Business> {
-    return this.businessRepository.findBusiness({username});
+  async findBusiness(userId : string) : Promise<Business> {
+    return this.businessRepository.findBusiness({"_id": {userId}});
   }
 
   async getAllBusinesses() : Promise<Business[]> {
     return this.businessRepository.find({});
   }
 
-  async createBusiness(username : string, storeTitle : string, storeDescription : string) : Promise<Business> {
-    return this.businessRepository.create({
-      username : username,
+  async createBusiness(business : Business) : Promise<Business> {
+    return this.businessRepository.createBusiness(business);
+  }
+
+  async createStore(storeTitle : string, storeDescription : string) : Promise<Business> {
+    return this.businessRepository.createStore({
       storeTitle : storeTitle,
       storeDescription : storeDescription
     });
   }
 
-  async updateBusiness(username : string, update : CreateStoreDto) : Promise<Business> {
-    return this.businessRepository.findOneAndUpdate({username}, update);
+  async createListing(productDescription : string) : Promise<Business> {
+    return this.businessRepository.createListing({productDescription});
+  }
+
+  async updateStoreDetails(id : ObjectId, update : UpdateStoreDto) : Promise<Business> {
+    return this.businessRepository.findOneAndUpdateStore({id}, update);
+  }
+
+  async updateListing(id : ObjectId, update : UpdateListingDto) : Promise<Business> {
+    return this.businessRepository.findOneAndUpdateListing({id}, update);
   }
 }
