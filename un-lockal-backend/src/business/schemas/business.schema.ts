@@ -1,18 +1,17 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document } from "mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
+import { Store } from './store.schema';
+import { Listing } from './listings.schema';
 
-export type BusinessDocument = Business & Document; 
+export type BusinessDocument = Business & Document;
 
-@Schema()
+@Schema({versionKey : false})
 export class Business {
-    @Prop()
-    username : string;
+  @Prop()
+  store: Store;
 
-    @Prop()
-    storeTitle : string;
-
-    @Prop()
-    storeDescription : string;
+  @Prop()
+  listings: Listing;
 }
 
-export const BusinessSchema = SchemaFactory.createForClass(Business);
+export const businessSchema = SchemaFactory.createForClass(Business);

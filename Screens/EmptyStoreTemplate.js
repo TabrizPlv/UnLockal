@@ -13,23 +13,12 @@ import {
   ImageBackground,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { db } from "../firebase";
-import { doc, updateDoc } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useNavigation } from "@react-navigation/core";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { handleEditStore } from '../src/ClientRequests/editStore'
 
-const auth = getAuth();
-let currentUserUid;
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    const uid = user.uid;
-    currentUserUid = uid;
-  }
-});
 
 export default function EmptyStorePage() {
-  //reference to Firebase Documents
   const [StoreTitle, setStoreTitle] = useState(null);
   const [StoreImage, setStoreImage] = useState(null);
   const [StoreImageURL, setStoreImageURL] = useState(null);
@@ -38,29 +27,9 @@ export default function EmptyStorePage() {
   const [GalleryPermission, setGalleryPermission] = useState(null);
   const navigation = useNavigation();
 
-  const getImageURL = async () => {
-    if (ImageSelected) {
-      const storage = getStorage();
-      const storageRef = ref(storage, "/StoreImages");
-      const reference = ref(storageRef, currentUserUid);
-      await getDownloadURL(reference).then((url) => {
-        setStoreImageURL(url);
-      });
-      console.log(StoreImageURL);
-    } else {
-      return setStoreImageURL(null);
-    }
-  };
 
   let Submit = async () => {
-    getImageURL();
-    const docRef = await updateDoc(doc(db, "users", currentUserUid), {
-      "StorePageDetails.StoreTitle": StoreTitle,
-      "StorePageDetails.StoreDescription": StoreDescription,
-      "StorePageDetails.StoreImageURL": StoreImageURL,
-      haveStore: true,
-    });
-    alert("Submit successful!");
+    handleEditStore({StoreTitle, StoreDescription});
   };
 
   //Only works if user does not decline the first time

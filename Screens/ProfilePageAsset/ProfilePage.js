@@ -12,7 +12,6 @@ import {
   Dimensions,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
 import { auth } from "../../firebase";
 import { useNavigation } from "@react-navigation/core";
 import { onAuthStateChanged } from "firebase/auth";
