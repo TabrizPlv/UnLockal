@@ -6,13 +6,14 @@ export function handleEditStore(storeDetails) {
     .post(url, 
         {
             storeTitle : storeDetails.StoreTitle,
-            storeDescription : storeDetails.StoreDescription
+            storeDescription : storeDetails.StoreDescription,
+            storeImageURL : storeDetails.StoreImageURL
         })
     .then((response) => {
       console.log(response);
     })
     .catch((error) => {
-      console.log("error!");
+      console.log("error with editting store!");
       console.log(error.response.request._response)
     });
 }

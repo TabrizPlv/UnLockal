@@ -21,7 +21,7 @@ export class BusinessController {
   constructor(private businessService: BusinessService) {}
 
   @Get('/search/:userId')
-  getStore(@Param('userId') userId : string) {
+  getStore(@Param('userId') userId: string) {
     const user = this.businessService.findBusiness(userId);
     if (user) {
       return user;
@@ -31,12 +31,15 @@ export class BusinessController {
   }
 
   @Post('create-listing')
-    @UsePipes(ValidationPipe)
-    createListing(@Body() listingDto : ListingDto) {
-      this.businessService.createListing(
-        listingDto.productDescription
-      );
-    }
+  @UsePipes(ValidationPipe)
+  createListing(@Body() listingDto: ListingDto) {
+    this.businessService.createListing(
+      listingDto.productName,
+      listingDto.productDescription,
+      listingDto.productPrice,
+      listingDto.productImages,
+    );
+  }
 
   @Post('create-store')
   @UsePipes(ValidationPipe)
@@ -44,6 +47,7 @@ export class BusinessController {
     this.businessService.createStore(
       StoreDto.storeTitle,
       StoreDto.storeDescription,
+      StoreDto.storeImageURL,
     );
   }
 
@@ -52,8 +56,6 @@ export class BusinessController {
   createBusiness(@Body() business: Business) {
     this.businessService.createBusiness(business);
   }
-
-  
 
   @Get()
   getAllStores() {

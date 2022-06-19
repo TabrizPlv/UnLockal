@@ -1,5 +1,4 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Business } from "./business.schema";
 
 @Schema()
 export class Store {
@@ -8,6 +7,9 @@ export class Store {
 
     @Prop()
     storeDescription : string;
+
+    @Prop()
+    storeImageURL : string;
 }
 
 export const storeSchema = SchemaFactory.createForClass(Store);

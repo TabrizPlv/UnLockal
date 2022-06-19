@@ -16,6 +16,7 @@ import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from "@react-navigation/core";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { handleEditStore } from '../src/ClientRequests/editStore'
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 
 export default function EmptyStorePage() {
@@ -29,7 +30,8 @@ export default function EmptyStorePage() {
 
 
   let Submit = async () => {
-    handleEditStore({StoreTitle, StoreDescription});
+    handleEditStore({StoreTitle, StoreDescription, StoreImageURL});
+    alert('submitted!')
   };
 
   //Only works if user does not decline the first time
@@ -47,18 +49,22 @@ export default function EmptyStorePage() {
         quality: 1,
       });
 
+      //upload image to firebase Storage and
+      //upload image URL to fireStore
       if (!result.cancelled) {
         const storage = getStorage();
         const storageRef = ref(storage, "/StoreImages");
-        const reference = ref(storageRef, currentUserUid);
+        const reference = ref(storageRef/*,'insert file name here'*/);
         const img = await fetch(result.uri);
         const bytes = await img.blob();
         setStoreImage(result.uri);
         setImageSelected(true);
         await uploadBytes(reference, bytes);
+        await getDownloadURL(reference).then(url => {setStoreImageURL(url)});
       }
     }
   };
+
   return (
     <SafeAreaView style={{ backgroundColor: "pink", flex: 1 }}>
       <KeyboardAwareScrollView>
