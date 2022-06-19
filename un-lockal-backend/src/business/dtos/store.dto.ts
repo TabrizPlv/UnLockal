@@ -6,4 +6,7 @@ export class StoreDto {
 
     @IsNotEmpty()
     storeDescription : string;
+
+    @IsNotEmpty()
+    storeImageURL : string;
 }

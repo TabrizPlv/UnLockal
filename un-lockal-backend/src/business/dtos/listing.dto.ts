@@ -1,6 +1,15 @@
-import {IsNotEmpty} from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 
 export class ListingDto {
-    @IsNotEmpty()
-    productDescription : string;
+  @IsNotEmpty()
+  productName: string;
+
+  @IsNotEmpty()
+  productDescription: string;
+
+  @IsNotEmpty()
+  productPrice : number;
+
+  @IsNotEmpty()
+  productImages: string[];
 }
