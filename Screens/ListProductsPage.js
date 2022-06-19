@@ -2,17 +2,26 @@ import React from "react";
 import {
   StyleSheet,
   Text,
+  TextInput,
   View,
+  Image,
   SafeAreaView,
+  Dimensions,
   StatusBar,
   Pressable,
-  TextInput,
+  ImageBackground,
+  Button,
+  ScrollView,
+  TouchableOpacity
 } from "react-native";
+
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { handleAddListing } from "../src/ClientRequests/addListing";
 import { useState } from "react";
-//import ImagePicker from "react-native-image-crop-picker";
 import Carousel from "react-native-snap-carousel";
+// import * as ImagePicker from "expo-image-picker";
+import { useNavigation } from "@react-navigation/core";
+
 
 export default function ListProductsPage() {
   const [productName, setProductName] = useState("");
@@ -20,34 +29,27 @@ export default function ListProductsPage() {
   const [productPrice, setProductPrice] = useState("");
   const [productImageURLS, setProductImageURLS] = useState("");
   const [galleryPermission, setGalleryPermission] = useState([]);
+  //const [image, setImage] = useState(null);
+  const navigation = useNavigation();
 
-  // const selectImages = () => {
-  //   let imageList = [];
-  //   ImagePicker.openPicker({
-  //     multiple: true,
-  //     waitAnimationEnd: false,
-  //     includeExif: true,
-  //     forceJpg: true,
-  //     compressImageQuality: 1,
-  //     maxFiles: 5,
-  //     mediaType: "photo",
-  //     includeBase64: true,
-  //   })
-  //     .then((response) => {
-  //       console.log(response);
-  //       response.map((image) => {
-  //         imageList.push({
-  //           filename: image.filename,
-  //           path: image.path,
-  //           data: image.data,
-  //         });
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       console.log("error picking images!");
-  //       console.log(error);
-  //     });
-  // };
+  /* 
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 1],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
+  */
+
 
   return (
     <SafeAreaView
@@ -94,15 +96,27 @@ export default function ListProductsPage() {
           </View>
         </View>
 
-        <View style={styles.UploadImageContainer}>
-          <Text>Product Image</Text>
-          <View style={styles.UploadImageView}>
-            <TextInput
-              style={styles.UploadImageText}
-              placeholder="Upload an image of your product!"
-            />
-          </View>
+        <Text style = {{marginTop:10, marginLeft:13, marginBottom: 20}}>Add Images of your products</Text>
+        
+        <View style = {styles.addImageContainer}>
+            <TouchableOpacity style = {styles.addProductTouchableOpacity}>
+              <Text style = {styles.addProductText}>+</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style = {styles.addProductTouchableOpacity}>
+              <Text style = {styles.addProductText}>+</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style = {styles.addProductTouchableOpacity}>
+              <Text style = {styles.addProductText}>+</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style = {styles.addProductTouchableOpacity}>
+              <Text style = {styles.addProductText}>+</Text>
+            </TouchableOpacity>
         </View>
+        
+
 
         <View style={styles.SubmitButtonView}>
           <Pressable onPress={() => {}}>
@@ -215,4 +229,45 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
   },
+
+  AddProductButtonContainer : {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  AddProductButton: {
+    backgroundColor: '#859a9b',
+    borderRadius: 20,
+    padding: 10,
+    marginBottom: 20,
+    shadowColor: '#303838',
+    shadowOffset: { width: 0, height: 5 },
+    shadowRadius: 10,
+    shadowOpacity: 0.35,
+  },
+
+  addImageContainer: {
+    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: 'space-between',
+    marginLeft: 10,
+    marginRight: 10,
+
+  },
+
+  addProductText: {
+    color: "white",
+    fontSize: 42,
+    lineHeight: 84,
+    fontWeight: "bold",
+    textAlign: "center",
+    backgroundColor: "#000000c0"
+  },
+
+  addProductTouchableOpacity: {
+    width: 80,
+    
+  }
 });
