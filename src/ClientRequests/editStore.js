@@ -1,13 +1,13 @@
 import axios from "axios";
 
-export function handleEditStore(storeDetails) {
+export async function handleEditStore(storeDetails) {
   const url = "http://192.168.86.235:3001/business/create-store";
   axios
     .post(url, 
         {
-            storeTitle : storeDetails.StoreTitle,
-            storeDescription : storeDetails.StoreDescription,
-            storeImageURL : storeDetails.StoreImageURL
+            storeTitle : storeDetails.storeTitle,
+            storeDescription : storeDetails.storeDescription,
+            storeImageURL : storeDetails.storeImageUrl
         })
     .then((response) => {
       console.log(response);

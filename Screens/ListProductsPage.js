@@ -9,45 +9,71 @@ import {
   TextInput,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import * as ImagePicker from "expo-image-picker";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { handleAddListing } from "../src/ClientRequests/addListing";
 import { useState } from "react";
-//import ImagePicker from "react-native-image-crop-picker";
-import Carousel from "react-native-snap-carousel";
 
 export default function ListProductsPage() {
   const [productName, setProductName] = useState("");
   const [productDescription, setProductDescription] = useState("");
   const [productPrice, setProductPrice] = useState("");
-  const [productImageURLS, setProductImageURLS] = useState("");
-  const [galleryPermission, setGalleryPermission] = useState([]);
+  const [productImageUrls, setProductImageUrls] = useState(null);
+  const [galleryPermission, setGalleryPermission] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
+  const [imageuris, setImageuris] = useState([]);
 
-  // const selectImages = () => {
-  //   let imageList = [];
-  //   ImagePicker.openPicker({
-  //     multiple: true,
-  //     waitAnimationEnd: false,
-  //     includeExif: true,
-  //     forceJpg: true,
-  //     compressImageQuality: 1,
-  //     maxFiles: 5,
-  //     mediaType: "photo",
-  //     includeBase64: true,
-  //   })
-  //     .then((response) => {
-  //       console.log(response);
-  //       response.map((image) => {
-  //         imageList.push({
-  //           filename: image.filename,
-  //           path: image.path,
-  //           data: image.data,
-  //         });
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       console.log("error picking images!");
-  //       console.log(error);
-  //     });
-  // };
+  //Only works if user does not decline the first time
+  const pickImage = async () => {
+    const GalleryStatus =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+    //set GalleryPermission to true or false
+    setGalleryPermission(GalleryStatus.status === "granted");
+    if (galleryPermission == true) {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+      if (!result.cancelled) {
+        const img = await fetch(result.uri);
+        setImageuris([...imageuris, img]);
+        console.log("img pushed!");
+      }
+    }
+  };
+
+  //upload image to firebase Storage and
+  //retrieve image URL reference
+  const uploadImage = async () => {
+    const storage = getStorage();
+    const storageRef = ref(storage, "/ListingImages");
+    //returns an array of Promise
+    const res = imageuris.map(async (image) => {
+      console.log("running map");
+      const reference = ref(storageRef, Math.random().toString());
+      const bytes = await image.blob();
+      await uploadBytes(reference, bytes);
+      await getDownloadURL(reference).then((url) => {
+        image = url;
+      });
+    });
+    return Promise.all(res)
+      .then((urls) => {setProductImageUrls(urls); console.log(urls)})
+      .catch((error) => console.log(error));
+  };
+
+  const Submit = async () => {
+    await uploadImage();
+    console.log("upload done!");
+    handleAddListing({
+      productName: productName,
+      productDescription: productDescription,
+      productPrice: productPrice,
+      productImages: productImageUrls,
+    });
+  };
 
   return (
     <SafeAreaView
@@ -67,6 +93,7 @@ export default function ListProductsPage() {
               style={styles.ProductNameText}
               placeholder="Name of your product"
               placeholderTextColor={"grey"}
+              onChangeText={setProductName}
             />
           </View>
         </View>
@@ -78,6 +105,7 @@ export default function ListProductsPage() {
               style={styles.ProductDescriptionText}
               placeholder="Describe your product"
               placeholderTextColor={"grey"}
+              onChangeText={setProductDescription}
             />
           </View>
         </View>
@@ -90,12 +118,13 @@ export default function ListProductsPage() {
               style={styles.ProductPriceText}
               placeholder="Enter price"
               keyboardType="numeric"
+              onChangeText={setProductPrice}
             />
           </View>
         </View>
 
         <View style={styles.UploadImageContainer}>
-          <Text>Product Image</Text>
+          <Text onPress={pickImage}>Product Image</Text>
           <View style={styles.UploadImageView}>
             <TextInput
               style={styles.UploadImageText}
@@ -103,9 +132,8 @@ export default function ListProductsPage() {
             />
           </View>
         </View>
-
         <View style={styles.SubmitButtonView}>
-          <Pressable onPress={() => {}}>
+          <Pressable onPress={Submit}>
             <Text style={styles.ButtonText}>List it!</Text>
           </Pressable>
         </View>
