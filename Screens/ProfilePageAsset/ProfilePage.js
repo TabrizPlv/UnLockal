@@ -29,7 +29,7 @@ const screenHeight = Dimensions.get("screen").height;
 const screenWidth = Dimensions.get("screen").width;
 
 export default function ProfilePage({ navigation }) {
-  const [haveStore, setHaveStore] = useState(false);
+  const [haveStore, setHaveStore] = useState(true);
   const navigationn = useNavigation();
 
   const handleSignOut = () => {
@@ -41,21 +41,22 @@ export default function ProfilePage({ navigation }) {
       .catch((error) => alert(error.message));
   };
 
-  const retrieveStore = async () => {
-    const docRef = doc(db, "users", currentUserUid);
-    const docSnap = await getDoc(docRef);
-    const allData = docSnap.data();
-    console.log(allData.haveStore);
-    setHaveStore(allData.haveStore);
-  };
+  // const retrieveStore = async () => {
+  //   const docRef = doc(db, "users", currentUserUid);
+  //   const docSnap = await getDoc(docRef);
+  //   const allData = docSnap.data();
+  //   console.log(allData.haveStore);
+  //   setHaveStore(allData.haveStore);
+  // };
   // useEffect(() => {
   //   retrieveStore();
   // }, []);
-  retrieveStore();
+//retrieveStore();
   const OnPressViewStore = () => {
-    return haveStore
-      ? navigationn.navigate("UpdatedStorePage")
-      : navigationn.navigate("EmptyStorePage");
+    // return haveStore
+    //   ? navigationn.navigate("UpdatedStorePage")
+    //   : navigationn.navigate("EmptyStorePage");
+    navigationn.navigate("EmptyStorePage");
   };
   return (
     <SafeAreaView style={styles.container}>
