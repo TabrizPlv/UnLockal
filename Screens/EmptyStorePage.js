@@ -27,7 +27,7 @@ export default function EmptyStorePage() {
       >
         <Image
           style={styles.DefaultImage}
-          source={require("../assets/QuestionMark.png")}
+          source={require('../assets/icon.png')}
         />
       </ImageBackground>
       <View style={styles.DescriptionView}>

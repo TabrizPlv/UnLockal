@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
   StyleSheet,
@@ -11,57 +11,85 @@ import {
   StatusBar,
   Pressable,
   ImageBackground,
+  ActivityIndicator,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from "@react-navigation/core";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { handleEditStore } from '../src/ClientRequests/editStore'
+//import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { handleEditStore } from "../src/ClientRequests/editStore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-
-export default function EmptyStorePage() {
-  const [StoreTitle, setStoreTitle] = useState(null);
-  const [StoreImage, setStoreImage] = useState(null);
-  const [StoreImageURL, setStoreImageURL] = useState(null);
-  const [ImageSelected, setImageSelected] = useState(false);
-  const [StoreDescription, setStoreDescription] = useState(null);
-  const [GalleryPermission, setGalleryPermission] = useState(null);
+export default function EmptyStoreTemplate() {
+  const [storeTitle, setStoreTitle] = useState("");
+  const [storeImage, setStoreImage] = useState(null);
+  const [isImageSelected, setIsImageSelected] = useState(false);
+  const [storeDescription, setStoreDescription] = useState("");
+  const [storeImageUrl, setStoreImageUrl] = useState("");
+  const [galleryPermission, setGalleryPermission] = useState(false);
+  const [imagePicked, setimagePicked] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
   const navigation = useNavigation();
-
-
+  useEffect(() => {
+    console.log('storeTitle:' + storeTitle);
+    console.log('storeDescription:' + storeDescription);
+    console.log('URL:' + storeImageUrl);
+  }, [storeTitle, storeDescription,storeImageUrl])
   let Submit = async () => {
-    handleEditStore({StoreTitle, StoreDescription, StoreImageURL});
-    alert('submitted!')
+    await uploadImage(imagePicked);
+    await handleEditStore({ storeTitle, storeDescription, storeImageUrl });
+    alert("submitted!");
   };
-
   //Only works if user does not decline the first time
   const pickImage = async () => {
     const GalleryStatus =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
     //set GalleryPermission to true or false
     setGalleryPermission(GalleryStatus.status === "granted");
-
-    if (GalleryPermission == true) {
+    if (galleryPermission === true) {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
-      });
+      })
+        .then((resultObject) => {
+          setimagePicked(resultObject);
+          setStoreImage(resultObject.uri);
+          setIsImageSelected(true);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
 
-      //upload image to firebase Storage and
-      //upload image URL to fireStore
-      if (!result.cancelled) {
-        const storage = getStorage();
-        const storageRef = ref(storage, "/StoreImages");
-        const reference = ref(storageRef/*,'insert file name here'*/);
-        const img = await fetch(result.uri);
-        const bytes = await img.blob();
-        setStoreImage(result.uri);
-        setImageSelected(true);
-        await uploadBytes(reference, bytes);
-        await getDownloadURL(reference).then(url => {setStoreImageURL(url)});
-      }
+  //upload image to firebase Storage and
+  //upload image URL to fireStore
+  const uploadImage = async (result) => {
+    if (!result.cancelled) {
+      setIsUploading(true);
+      const storage = getStorage();
+      const storageRef = ref(storage, "/StoreImages");
+      const reference = ref(storageRef /*,'insert file name here'*/);
+      const img = await fetch(result.uri);
+      const bytes = await img.blob();
+      await uploadBytes(reference, bytes)
+        .then(() => {
+          console.log("uploaded to firebase Storage!");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+      await getDownloadURL(reference)
+        .then((url) => {
+          setStoreImageUrl(url);
+          setIsUploading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setIsUploading(false);
+        });
     }
   };
 
@@ -69,6 +97,9 @@ export default function EmptyStorePage() {
     <SafeAreaView style={{ backgroundColor: "pink", flex: 1 }}>
       <KeyboardAwareScrollView>
         <StatusBar barStyle="dark-content" />
+        {isUploading && (
+          <ActivityIndicator size="large" style={styles.LoadingIndicator} />
+        )}
         <View style={styles.StoreTitleView}>
           <TextInput
             style={styles.StoreTitleText}
@@ -84,9 +115,9 @@ export default function EmptyStorePage() {
           >
             <View style={{ height: "75%", width: "75%" }}>
               <Pressable style={styles.AddImageButton} onPress={pickImage}>
-                {ImageSelected ? (
+                {isImageSelected ? (
                   <Image
-                    source={{ uri: StoreImage }}
+                    source={{ uri: storeImage }}
                     style={{ height: "100%", width: "100%", flex: 1 }}
                   />
                 ) : (
@@ -121,6 +152,11 @@ export default function EmptyStorePage() {
   );
 }
 const styles = StyleSheet.create({
+  LoadingIndicator: {
+    zIndex: 5,
+    width: "100%",
+    height: "100%",
+  },
   StoreTitleView: {
     backgroundColor: "green",
     height: Dimensions.get("window").height * 0.1,
