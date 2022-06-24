@@ -5,10 +5,11 @@ import { Business } from './schemas/business.schema';
 import { BusinessController } from './controller/business/business.controller';
 import { BusinessService } from './services/business.service';
 import { BusinessRepository } from './schemas/business.repository';
+import { ListingModule } from './listing/listing.module';
 
 
 @Module({
-  imports: [MongooseModule.forFeature([{name : Business.name, schema : businessSchema }])],
+  imports: [ListingModule, MongooseModule.forFeature([{name : Business.name, schema : businessSchema }])],
   controllers: [BusinessController,],
   providers: [BusinessService, BusinessRepository],
   exports : [BusinessRepository]

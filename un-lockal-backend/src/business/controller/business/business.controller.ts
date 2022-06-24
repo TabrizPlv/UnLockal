@@ -7,14 +7,17 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { StoreDto } from 'src/business/dtos/store.dto';
 import { Business } from 'src/business/schemas/business.schema';
 import { BusinessService } from 'src/business/services/business.service';
-import { ListingDto } from 'src/business/dtos/listing.dto';
+import { ListingDto } from 'src/business/listing/dtos/listing.dto';
 import { ObjectId } from 'mongoose';
+import { PaginationParameters } from 'src/business/listing/dtos/pagination-paramters.dto';
+import { Listing } from 'src/business/listing/schemas/listing.schema';
 
 @Controller('business')
 export class BusinessController {
@@ -66,4 +69,16 @@ export class BusinessController {
   // async updateStore(@Body() updateStoreDto: UpdateStoreDto): Promise<Business> {
   //   return this.businessService.updateStoreDetails(updateStoreDto);
   // }
+
+  @Get('listings')
+  async getListings(
+    @Query() getListingParameters: PaginationParameters,
+  ): Promise<Listing[]> {
+    return this.businessService.getListings(getListingParameters);
+  }
+
+  @Get('listing-count')
+  async countListings() : Promise<number> {
+    return this.businessService.countListings();
+  }
 }

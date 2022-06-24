@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
   StyleSheet,
@@ -13,9 +13,9 @@ import {
   ImageBackground,
   ActivityIndicator,
 } from "react-native";
+
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from "@react-navigation/core";
-//import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { handleEditStore } from "../src/ClientRequests/editStore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
@@ -29,11 +29,7 @@ export default function EmptyStoreTemplate() {
   const [imagePicked, setimagePicked] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const navigation = useNavigation();
-  useEffect(() => {
-    console.log('storeTitle:' + storeTitle);
-    console.log('storeDescription:' + storeDescription);
-    console.log('URL:' + storeImageUrl);
-  }, [storeTitle, storeDescription,storeImageUrl])
+
   let Submit = async () => {
     await uploadImage(imagePicked);
     await handleEditStore({ storeTitle, storeDescription, storeImageUrl });

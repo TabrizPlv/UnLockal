@@ -4,15 +4,12 @@ import {
   Text,
   TextInput,
   View,
-  Image,
   SafeAreaView,
-  Dimensions,
   StatusBar,
   Pressable,
-  ImageBackground,
-  Button,
-  ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  Image,
+  ActivityIndicator,
 } from "react-native";
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -25,13 +22,14 @@ export default function ListProductsPage() {
   const [productName, setProductName] = useState("");
   const [productDescription, setProductDescription] = useState("");
   const [productPrice, setProductPrice] = useState("");
-  const [productImageUrls, setProductImageUrls] = useState(null);
   const [galleryPermission, setGalleryPermission] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const [imageuris, setImageuris] = useState([]);
+  const [imageObjects, setImageObjects] = useState([]);
+  let imageUrls = [];
 
   //Only works if user does not decline the first time
-  const pickImage = async () => {
+  async function pickImage() {
     const GalleryStatus =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
     //set GalleryPermission to true or false
@@ -42,33 +40,52 @@ export default function ListProductsPage() {
         allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
-      });
-      if (!result.cancelled) {
-        const img = await fetch(result.uri);
-        setImageuris([...imageuris, img]);
-        console.log("img pushed!");
-      }
+      })
+        .then((response) => {
+          if (!response.cancelled) {
+            setImageObjects([...imageObjects, response]);
+            setImageuris([...imageuris, response.uri]);
+            console.log("image uri added to array!");
+          }
+        })
+        .catch((error) => console.log(error));
     }
-  };
+    // if (!result.cancelled) {
+    //   const img = await fetch(result.uri);
+    //   setImageuris([...imageuris, img]);
+    //   console.log("img pushed!");
+    // }
+  }
 
   //upload image to firebase Storage and
   //retrieve image URL reference
   const uploadImage = async () => {
+    setIsUploading(true);
     const storage = getStorage();
     const storageRef = ref(storage, "/ListingImages");
     //returns an array of Promise
-    const res = imageuris.map(async (image) => {
-      console.log("running map");
-      const reference = ref(storageRef, Math.random().toString());
-      const bytes = await image.blob();
-      await uploadBytes(reference, bytes);
-      await getDownloadURL(reference).then((url) => {
-        image = url;
-      });
-    });
-    return Promise.all(res)
-      .then((urls) => {setProductImageUrls(urls); console.log(urls)})
-      .catch((error) => console.log(error));
+    const res = await Promise.all(
+      imageObjects.map(async function (imageObject) {
+        console.log("running map");
+        let helper;
+        const reference = ref(storageRef, Math.random().toString());
+        const img = await fetch(imageObject.uri);
+        const bytes = await img.blob();
+        await uploadBytes(reference, bytes)
+          .then((response) => console.log("Uploaded to firebase"))
+          .catch((error) => {
+            console.log(error);
+          });
+        await getDownloadURL(reference)
+          .then((url) => {
+            helper = url;
+          })
+          .catch((error) => console.log(error));
+        return helper;
+      })
+    );
+    imageUrls = res;
+    setIsUploading(false);
   };
 
   const Submit = async () => {
@@ -78,7 +95,7 @@ export default function ListProductsPage() {
       productName: productName,
       productDescription: productDescription,
       productPrice: productPrice,
-      productImages: productImageUrls,
+      productImages: imageUrls,
     });
   };
 
@@ -88,7 +105,9 @@ export default function ListProductsPage() {
     >
       <KeyboardAwareScrollView>
         <StatusBar barStyle="dark-content" />
-
+        {isUploading && (
+          <ActivityIndicator size="large" style={styles.LoadingIndicator} />
+        )}
         <View style={styles.addProductHeaderView}>
           <Text style={styles.addProductHeaderText}> Add your product!</Text>
         </View>
@@ -97,6 +116,7 @@ export default function ListProductsPage() {
           <Text>Product Name</Text>
           <View style={styles.ProductNameView}>
             <TextInput
+              testID="productName"
               style={styles.ProductNameText}
               placeholder="Name of your product"
               placeholderTextColor={"grey"}
@@ -109,6 +129,7 @@ export default function ListProductsPage() {
           <Text>Product Description</Text>
           <View style={styles.ProductDescriptionView}>
             <TextInput
+              testID="productDesc"
               style={styles.ProductDescriptionText}
               placeholder="Describe your product"
               placeholderTextColor={"grey"}
@@ -122,6 +143,7 @@ export default function ListProductsPage() {
           <View style={styles.ProductPriceView}>
             <Text>SGD </Text>
             <TextInput
+              testID="productPrice"
               style={styles.ProductPriceText}
               placeholder="Enter price"
               keyboardType="numeric"
@@ -130,27 +152,67 @@ export default function ListProductsPage() {
           </View>
         </View>
 
-        <Text style = {{marginTop:10, marginLeft:13, marginBottom: 20}}>Add Images of your products</Text>
-        
-        <View style = {styles.addImageContainer}>
-            <TouchableOpacity style = {styles.addProductTouchableOpacity}>
-              <Text style = {styles.addProductText}>+</Text>
-            </TouchableOpacity>
+        <Text style={{ marginTop: 10, marginLeft: 13, marginBottom: 20 }}>
+          Add Images of your products
+        </Text>
 
-            <TouchableOpacity style = {styles.addProductTouchableOpacity}>
-              <Text style = {styles.addProductText}>+</Text>
-            </TouchableOpacity>
+        <View style={styles.addImageContainer}>
+          <TouchableOpacity
+            style={styles.addProductTouchableOpacity}
+            onPress={pickImage}
+          >
+            {imageuris.length >= 1 ? (
+              <Image
+                source={{ uri: imageuris[0] }}
+                style={styles.uploadedImage}
+              />
+            ) : (
+              <Text style={styles.addProductText}>+</Text>
+            )}
+          </TouchableOpacity>
 
-            <TouchableOpacity style = {styles.addProductTouchableOpacity}>
-              <Text style = {styles.addProductText}>+</Text>
-            </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.addProductTouchableOpacity}
+            onPress={pickImage}
+          >
+            {imageuris.length >= 2 ? (
+              <Image
+                source={{ uri: imageuris[1] }}
+                style={styles.uploadedImage}
+              />
+            ) : (
+              <Text style={styles.addProductText}>+</Text>
+            )}
+          </TouchableOpacity>
 
-            <TouchableOpacity style = {styles.addProductTouchableOpacity}>
-              <Text style = {styles.addProductText}>+</Text>
-            </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.addProductTouchableOpacity}
+            onPress={pickImage}
+          >
+            {imageuris.length >= 3 ? (
+              <Image
+                source={{ uri: imageuris[2] }}
+                style={styles.uploadedImage}
+              />
+            ) : (
+              <Text style={styles.addProductText}>+</Text>
+            )}
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.addProductTouchableOpacity}
+            onPress={pickImage}
+          >
+            {imageuris.length >= 4 ? (
+              <Image
+                source={{ uri: imageuris[3] }}
+                style={styles.uploadedImage}
+              />
+            ) : (
+              <Text style={styles.addProductText}>+</Text>
+            )}
+          </TouchableOpacity>
         </View>
-        
-
 
         <View style={styles.SubmitButtonView}>
           <Pressable onPress={Submit}>
@@ -163,6 +225,12 @@ export default function ListProductsPage() {
 }
 
 const styles = StyleSheet.create({
+  LoadingIndicator: {
+    zIndex: 5,
+    width: "100%",
+    height: "100%",
+  },
+
   addProductHeaderView: {
     alignItems: "center",
   },
@@ -264,31 +332,30 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 
-  AddProductButtonContainer : {
+  AddProductButtonContainer: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   AddProductButton: {
-    backgroundColor: '#859a9b',
+    backgroundColor: "#859a9b",
     borderRadius: 20,
     padding: 10,
     marginBottom: 20,
-    shadowColor: '#303838',
+    shadowColor: "#303838",
     shadowOffset: { width: 0, height: 5 },
     shadowRadius: 10,
     shadowOpacity: 0.35,
   },
 
   addImageContainer: {
-    justifyContent: 'center',
+    justifyContent: "center",
     flexDirection: "row",
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     marginLeft: 10,
     marginRight: 10,
-
   },
 
   addProductText: {
@@ -297,11 +364,17 @@ const styles = StyleSheet.create({
     lineHeight: 84,
     fontWeight: "bold",
     textAlign: "center",
-    backgroundColor: "#000000c0"
+    backgroundColor: "#000000c0",
   },
 
   addProductTouchableOpacity: {
     width: 80,
-    
-  }
+    borderWidth: 2,
+    borderColor: "black",
+  },
+  uploadedImage: {
+    height: "100%",
+    width: "100%",
+    flex: 1,
+  },
 });
