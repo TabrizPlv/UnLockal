@@ -90,12 +90,14 @@ export default function EmptyStoreTemplate() {
   };
 
   return (
-    <SafeAreaView style={{ backgroundColor: "pink", flex: 1 }}>
+    <SafeAreaView style= {styles.overallContainer}>
       <KeyboardAwareScrollView>
+
         <StatusBar barStyle="dark-content" />
         {isUploading && (
           <ActivityIndicator size="large" style={styles.LoadingIndicator} />
         )}
+
         <View style={styles.StoreTitleView}>
           <TextInput
             style={styles.StoreTitleText}
@@ -104,108 +106,114 @@ export default function EmptyStoreTemplate() {
             onChangeText={setStoreTitle}
           />
         </View>
-        <View style={{ marginHorizontal: 10, marginBottom: 10 }}>
-          <ImageBackground
-            style={styles.ImageBg}
-            source={require("../assets/icon.png")}
-          >
-            <View style={{ height: "75%", width: "75%" }}>
-              <Pressable style={styles.AddImageButton} onPress={pickImage}>
-                {isImageSelected ? (
-                  <Image
-                    source={{ uri: storeImage }}
-                    style={{ height: "100%", width: "100%", flex: 1 }}
-                  />
-                ) : (
-                  <Text style={styles.AddImageText}>Tap to add image</Text>
-                )}
-              </Pressable>
-            </View>
-          </ImageBackground>
+
+
+        <View style = {styles.addImageView}>
+          <Pressable style={styles.AddImageButton} onPress={pickImage}>
+            {isImageSelected ? (
+              <Image
+                source={{ uri: storeImage }}
+                style={{ height: "100%", width: "100%", flex: 1 }}
+              />
+            ) : (
+              <Text style={styles.AddImageText}>Tap to add image</Text>
+            )}
+          </Pressable>
         </View>
+        
+        <View style = {styles.aboutBusinessView}>
+          <Text style = {styles.aboutBusinessText}> About The Business </Text>
+        </View>
+
         <View style={styles.DescriptionView}>
           <TextInput
             style={styles.DescriptionText}
             placeholder="Tap to add store description"
             placeholderTextColor={"black"}
             onChangeText={setStoreDescription}
+            multiline
+            numberOfLines={4}
           />
         </View>
+
         <View style={styles.ButtonView}>
           <View style={styles.CancelButton}>
             <Pressable onPress={() => navigation.navigate("MainContainer")}>
               <Text style={styles.ButtonText}>Cancel</Text>
             </Pressable>
           </View>
+
           <View style={styles.SubmitButton}>
             <Pressable onPress={Submit}>
-              <Text style={styles.ButtonText}>Submit</Text>
+              <Text style={styles.ButtonText}>Finish</Text>
             </Pressable>
           </View>
         </View>
+
       </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
+  overallContainer: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
   LoadingIndicator: {
     zIndex: 5,
     width: "100%",
     height: "100%",
   },
   StoreTitleView: {
-    backgroundColor: "green",
+    backgroundColor: "white",
     height: Dimensions.get("window").height * 0.1,
     alignContent: "center",
     justifyContent: "center",
-    marginTop: 32,
-    marginBottom: 30,
-    marginHorizontal: 10,
     fontSize: 50,
     flex: 1,
   },
   StoreTitleText: {
     fontSize: 35,
     textAlign: "center",
+    fontFamily:'Papyrus'
   },
-  ImageBg: {
-    height: Dimensions.get("window").height * 0.4,
-    marginHorizontal: 10,
-    marginBottom: 20,
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  DefaultImage: {
-    height: Dimensions.get("window").height * 0.4,
-    width: undefined,
-    aspectRatio: 1,
-    justifyContent: "center",
-    alignSelf: "center",
+  addImageView: {
+    width: '90%',
+    height: '50%',
+    alignSelf:'center'
   },
   AddImageButton: {
-    backgroundColor: "grey",
+    backgroundColor: "#F5F5F5",
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: 10
   },
   AddImageText: {
     fontSize: 20,
-    color: "blue",
+    fontFamily: 'Palatino'
+  },
+  aboutBusinessView: {
+    marginLeft: 40
+  },
+  aboutBusinessText: {
+    marginTop: 20, 
+    fontSize: 20,
+    fontFamily: 'Papyrus'
   },
   DescriptionView: {
-    backgroundColor: "grey",
     height: Dimensions.get("window").height * 0.2,
     marginHorizontal: 10,
     borderRadius: 30,
-    alignItems: "center",
-    justifyContent: "center",
+    marginLeft: 40,
     flex: 1,
+    flexWrap: 'wrap'
   },
   DescriptionText: {
-    fontSize: 25,
-    color: "yellow",
-    textAlign: "center",
+    fontSize: 20,
+    color: "black",
+    fontFamily: "Palatino",
+    flexWrap: 'wrap',
   },
   ButtonView: {
     height: Dimensions.get("window").height * 0.1,
@@ -213,29 +221,28 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
     marginHorizontal: 10,
-    marginTop: 10,
+    marginTop: 100,
   },
   CancelButton: {
-    borderWidth: 1,
-    borderColor: "black",
     height: "50%",
     width: "35%",
     margin: 35,
     backgroundColor: "red",
     alignItems: "center",
     justifyContent: "center",
+    borderRadius: 10
   },
   SubmitButton: {
-    borderWidth: 1,
-    borderColor: "black",
     height: "50%",
     width: "35%",
     margin: 35,
-    backgroundColor: "green",
+    backgroundColor: "teal",
     alignItems: "center",
     justifyContent: "center",
+    borderRadius: 10
   },
   ButtonText: {
-    fontSize: 25,
+    fontSize: 20,
+    color: 'white'
   },
 });
