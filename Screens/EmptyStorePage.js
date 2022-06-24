@@ -12,70 +12,121 @@ import {
   ImageBackground,
 } from "react-native";
 
+import { useNavigation } from "@react-navigation/core";
+
 export default function EmptyStorePage() {
+  const navigation = useNavigation();
   return (
-    <SafeAreaView
-      style={{ backgroundColor: "pink", height: "100%", width: "100%" }}
-    >
+    <SafeAreaView style = {styles.overallContainer}>
+       
       <StatusBar barStyle="dark-content" />
+
       <View style={styles.StoreTitleView}>
-        <Text style={styles.StoreTitleText}>UnLockal</Text>
+        <Text style={styles.StoreTitleText}>No store name yet</Text>
       </View>
-      <ImageBackground
-        style={styles.ImageBg}
-        source={require("../assets/icon.png")}
-      >
-        <Image
+
+      <Image
           style={styles.DefaultImage}
           source={require('../assets/icon.png')}
-        />
-      </ImageBackground>
+      />
+
+      <View style = {styles.aboutBusinessView}>
+        <Text style = {styles.aboutBusinessText}>About the business</Text>
+      </View>
+
       <View style={styles.DescriptionView}>
         <Text style={styles.DescriptionText}>
-          No description yet!
+          No description yet
         </Text>
       </View>
+
+      <View style={styles.ButtonView}>
+        <View style={styles.CancelButton}>
+          <Pressable onPress={() => navigation.navigate("MainContainer")}>
+            <Text style={styles.ButtonText}>Back to home</Text>
+          </Pressable>
+        </View>
+
+        <View style={styles.SubmitButton}>
+          <Pressable onPress={() => navigation.navigate("EmptyStoreTemplate")}>
+            <Text style={styles.ButtonText}>Edit Store</Text>
+          </Pressable>
+        </View>
+      </View>
+
     </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
   StoreTitleView: {
-    backgroundColor: "red",
-    height: Dimensions.get("window").height * 0.2,
+    marginTop: 20,
     alignContent: "center",
     justifyContent: "center",
-    marginTop: 32,
-    marginBottom: 30,
     marginHorizontal: 10,
   },
   StoreTitleText: {
     fontSize: 30,
-    color: "blue",
+    color: "black",
     textAlign: "center",
+    fontFamily: 'Papyrus'
   },
-  ImageBg: {
-    height: Dimensions.get("window").height * 0.4,
-    marginHorizontal: 10,
-    marginBottom: 30,
-  },
+
   DefaultImage: {
-    height: Dimensions.get("window").height * 0.4,
-    width: undefined,
-    aspectRatio: 1,
-    justifyContent: "center",
+    height: '50%',
+    width: '90%',
     alignSelf: "center",
   },
+
+  aboutBusinessView: {
+    marginLeft: 40,
+    marginTop: 20
+  },
+
+  aboutBusinessText: {
+    fontSize: 20,
+    fontFamily: 'Papyrus'
+  },
+
   DescriptionView: {
-    backgroundColor: "green",
-    height: Dimensions.get("window").height * 0.2,
-    marginHorizontal: 10,
+    marginLeft: 40,
     borderRadius: 30,
+    justifyContent: 'center',
+    marginTop:30
+  },
+
+  DescriptionText: {
+    fontSize: 20,
+    color: "black",
+  },
+  
+  ButtonView: {
+    height: Dimensions.get("window").height * 0.1,
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: "row",
+    marginTop: 130
+    
   },
-  DescriptionText: {
-    fontSize: 35,
-    color: "yellow",
-    margin: 20,
+  CancelButton: {
+    height: "50%",
+    width: "35%",
+    margin: 35,
+    backgroundColor: "red",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 10
+  },
+  SubmitButton: {
+    height: "50%",
+    width: "35%",
+    margin: 35,
+    backgroundColor: "teal",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 10
+  },
+  ButtonText: {
+    fontSize: 20,
+    color: 'white'
   },
 });
