@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { Business } from '../schemas/business.schema';
 import { BusinessRepository } from '../schemas/business.repository';
 import { UpdateStoreDto } from '../dtos/updateStore.dto';
-import { Listing } from '../schemas/listings.schema';
-import { Store } from '../schemas/store.schema';
 import { ObjectId } from 'mongoose';
-import { UpdateListingDto } from '../dtos/updateListing.dto';
+import { UpdateListingDto } from '../listing/dtos/updateListing.dto';
+import { PaginationParameters } from '../listing/dtos/pagination-paramters.dto';
+import { Listing } from '../listing/schemas/listing.schema';
 
 @Injectable()
 export class BusinessService {
@@ -61,5 +61,13 @@ export class BusinessService {
     update: UpdateListingDto,
   ): Promise<Business> {
     return this.businessRepository.findOneAndUpdateListing({ id }, update);
+  }
+
+  async getListings(listingParameters: PaginationParameters): Promise<Listing[]> {
+    return this.businessRepository.getListings(listingParameters);
+  }
+
+  async countListings(): Promise<number> {
+    return this.businessRepository.countListings();
   }
 }

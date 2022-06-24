@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { Store } from './store.schema';
-import { Listing } from './listings.schema';
+import { Listing } from '../listing/schemas/listing.schema';
 
 export type BusinessDocument = Business & Document;
 
@@ -11,7 +11,7 @@ export class Business {
   store: Store;
 
   @Prop()
-  listings: Listing;
+  listings: Listing[];
 }
 
 export const businessSchema = SchemaFactory.createForClass(Business);
