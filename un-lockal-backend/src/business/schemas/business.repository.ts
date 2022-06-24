@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { FilterQuery, Model } from 'mongoose';
+import { FilterQuery, Model, ObjectId } from 'mongoose';
 import { PaginationParameters } from '../listing/dtos/pagination-paramters.dto';
 import { Business, BusinessDocument } from './business.schema';
 import { Listing } from '../listing/schemas/listing.schema';
@@ -57,5 +57,15 @@ export class BusinessRepository {
       businessFilterQuery,
       updatedListing,
     );
+  }
+
+  async getListings(id : ObjectId) {
+    const biz = this.businessModel.findById(id);
+    return (await biz).listings;
+  }
+
+  async countListings(id : ObjectId) {
+    const biz = this.businessModel.findById(id);
+    return (await biz).listings.length;
   }
 }

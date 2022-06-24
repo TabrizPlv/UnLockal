@@ -64,10 +64,10 @@ export class BusinessService {
   }
 
   async getListings(listingParameters: PaginationParameters): Promise<Listing[]> {
-    return this.businessRepository.getListings(listingParameters);
+    return null;//this.businessRepository.getListings(listingParameters);
   }
 
   async countListings(): Promise<number> {
-    return this.businessRepository.countListings();
+    return null;//this.businessRepository.countListings();
   }
 }
