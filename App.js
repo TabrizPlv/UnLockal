@@ -9,6 +9,8 @@ import MainContainer from './Screens/ProfilePageAsset/MainContainer';
 import LoginScreen from "./Screens/LoginScreen";
 import ListProductsPage from "./Screens/ListProductsPage";
 import UpdatedStorePage from './Screens/UpdatedStorePage';
+import EditProfile from "./Screens/EditProfilePage";
+import EditProfilePage from "./Screens/EditProfilePage";
 
 const Stack = createNativeStackNavigator();
 
@@ -22,7 +24,8 @@ export default function App() {
         <Stack.Screen options ={{headerShown : false}} name="EmptyStorePage" component={EmptyStorePage}/>
         <Stack.Screen options ={{headerShown : false}} name="HomeScreenMarketPlace" component={HomeScreenMarketPlace}/>
         <Stack.Screen options ={{headerShown : false}} name="ListProductsPage" component={ListProductsPage}/>
-        <Stack.Screen options ={{headerShown : false}} name="UpdatedStorePage" component={UpdatedStorePage}/>        
+        <Stack.Screen options ={{headerShown : false}} name="UpdatedStorePage" component={UpdatedStorePage}/> 
+        <Stack.Screen options ={{headerShown : false}} name="EditProfilePage" component = {EditProfilePage}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
