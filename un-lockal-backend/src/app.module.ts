@@ -7,8 +7,8 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 
 @Module({
-  imports: [UserModule, BusinessModule, MongooseModule.forRoot('mongodb+srv://Tabriz:password1234@unlockal.nnkxw.mongodb.net/test')],
-  controllers: [BusinessController], 
+  imports: [UserModule, BusinessModule, MongooseModule.forRoot('mongodb://localhost:3001/test')],
+  controllers: [BusinessController],
   providers: [BusinessService],
-}) 
+})
 export class AppModule {}

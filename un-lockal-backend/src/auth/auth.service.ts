@@ -1,33 +1,25 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { AuthDto } from './dto';
-import { JwtService } from '@nestjs/jwt';
-import { NumberSchemaDefinition } from 'mongoose';
+import { Injectable, NotAcceptableException } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
+import { UserService } from 'src/user/user.service';
 
 const users = require('../users.json');
 
 @Injectable()
 export class AuthService {
-    constructor(private jwtService: JwtService) {
-
-    }
-
-    signInLocal(dto: AuthDto) {
-        //retrieve user
-        const user = users.find(_user => _user.email === dto.email);
-        if (!user) throw new UnauthorizedException('Username / Password incorrect');
-        if (user.password !== dto.password) throw new UnauthorizedException('Username / Password incorrect');
-        
-        return this.signUser(user.id, user.email, 'user')
-    }
-    signUpLocal(dto: AuthDto) {
-
-    }
-
-    signUser(userId: number, email: string, type: string) {
-        return this.jwtService.sign({
-            sub: userId,
-            email,
-            type: type,
-        });
+    constructor(private readonly userService: UserService) {}
+    
+    async validateUser(email: string, password: string): Promise<any> {
+        const user = await this.userService.getUser(email);
+        const passwordValid = await bcrypt.compare(password, user.password)
+        if (!user) {
+            throw new NotAcceptableException('could not find the user');
+        }
+        if (user && passwordValid){
+            return {
+                userId: user.id,
+                Email: user.email
+            };
+        }
+        return null;
     }
 }

@@ -12,12 +12,13 @@ import { signup, signin, auth } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
 import {setDoc, doc} from "firebase/firestore";
 import { db } from "../firebase";
+import { handleSignUp } from "../src/ClientRequests/signUpUser";
 
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -40,7 +41,7 @@ const LoginScreen = () => {
         });
         console.log("Registered with:", user.email);
       })
-      .catch((error) => alert(error.message))
+      .catch((error) => alert(error.message)) 
   };
 
   const handleLogin = () => {

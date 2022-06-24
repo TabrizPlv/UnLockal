@@ -16,5 +16,10 @@ export class UserService {
         await newUser.save();
         return newUser;
     }
+    async getUser(Email: string) {
+        const email = Email.toLowerCase();
+        const user = await this.userModel.findOne({ email });
+        return user
+    }
     
 }
