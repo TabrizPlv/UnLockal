@@ -15,7 +15,6 @@ import { StoreDto } from 'src/business/dtos/store.dto';
 import { Business } from 'src/business/schemas/business.schema';
 import { BusinessService } from 'src/business/services/business.service';
 import { ListingDto } from 'src/business/listing/dtos/listing.dto';
-import { ObjectId } from 'mongoose';
 import { PaginationParameters } from 'src/business/listing/dtos/pagination-paramters.dto';
 import { Listing } from 'src/business/listing/schemas/listing.schema';
 
@@ -70,7 +69,7 @@ export class BusinessController {
   //   return this.businessService.updateStoreDetails(updateStoreDto);
   // }
 
-  @Get('listings')
+  @Get('all-listings')
   async getListings(
     @Query() getListingParameters: PaginationParameters,
   ): Promise<Listing[]> {
