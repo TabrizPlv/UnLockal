@@ -1,13 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { hash } from 'bcrypt';
 import { Store } from 'src/business/schemas/store.schema';
 import { Model } from 'mongoose';
 import { UserDocument } from './schemas/user.schema';
-import { UserDetails } from './user-details.interface';
+import { UserDetails } from './dtos/user-details.interface';
 import { Listing } from 'src/business/listing/schemas/listing.schema';
-import { BusinessDocument } from 'src/business/schemas/business.schema';
-import { StoreDto } from 'src/business/dtos/store.dto';
 
 @Injectable()
 export class UserService {
@@ -22,36 +19,40 @@ export class UserService {
     };
   }
   async create(email: string, hashedPassword: string): Promise<UserDocument> {
-    const newUser = new this.userModel({ email, password: hashedPassword, business: {store:{}, listings:[]}});
+    const newUser = new this.userModel({
+      email,
+      password: hashedPassword,
+      business: { store: {}, listings: [] },
+    });
     return newUser.save();
   }
 
-  async findByEmail(email: string) : Promise<UserDocument | null> {
-    return this.userModel.findOne({email}).exec();
+  async findByEmail(email: string): Promise<UserDocument | null> {
+    return this.userModel.findOne({ email }).exec();
   }
 
-  async findById(id: string) : Promise<UserDetails | null> {
+  async findById(id: string): Promise<UserDetails | null> {
     const user = await this.userModel.findById(id).exec();
-    if(!user) {
-        return null;
+    if (!user) {
+      return null;
     } else {
-        return this._getUserDetails(user);
+      return this._getUserDetails(user);
     }
   }
-  async insertUser(Email : string, password : string) {
-      const email = Email.toLowerCase();
-      const newUser = new this.userModel({
-          email,
-          password
-      });
-      await newUser.save();
-      return newUser;
+  async insertUser(Email: string, password: string) {
+    const email = Email.toLowerCase();
+    const newUser = new this.userModel({
+      email,
+      password,
+    });
+    await newUser.save();
+    return newUser;
   }
 
   async getUser(Email: string) {
-      const input = Email.toLowerCase();
-      const user = await this.userModel.findOne({ input });
-      return user;
+    const input = Email.toLowerCase();
+    const user = await this.userModel.findOne({ input });
+    return user;
   }
 
   async createStore(id: string, inputStore: Store) {
@@ -66,14 +67,29 @@ export class UserService {
     return user.business.store;
   }
 
-  async createListing(id: string, inputListing : Listing) {
+  async createListing(id: string, inputListing: Listing) {
     const user = await this.userModel.findById(id);
     user.business.listings.push(inputListing);
     await user.save();
   }
 
-  async getAllListing(id : string) {
+  async getAllListing(id: string) {
     const user = await this.userModel.findById(id);
     return user.business.listings;
+  }
+
+  async haveStore(id: string) {
+    const user = await this.userModel.findById(id);
+    const store = user.business.store;
+    return !(
+      store.storeTitle === undefined ||
+      store.storeDescription === undefined ||
+      store.storeImageURL === undefined
+    );
+  }
+
+  async getUserListing(id: string) {
+    const user = await this.userModel.findById(id);
+    return { id: user.id, email: user.email, business: user.business };
   }
 }

@@ -2,7 +2,7 @@ import { Body, Controller, HttpCode, HttpStatus, Post, UseGuards, Get, Request }
 import { AuthGuard } from '@nestjs/passport';
 import { ExistingUserDto } from 'src/user/dtos/existing-user.dto';
 import { NewUserDto } from 'src/user/dtos/new-user.dto';
-import { UserDetails } from 'src/user/user-details.interface';
+import { UserDetails } from 'src/user/dtos/user-details.interface';
 import { AuthService } from './auth.service';
 import { JwtGuard } from './guards/jwt.guard';
 
