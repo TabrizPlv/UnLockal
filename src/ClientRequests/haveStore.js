@@ -4,20 +4,20 @@ import { getUserId } from "../User-Info-Functions";
 
 export async function handleGetListing() {
   const userId = await getUserId("userToken");
-  const [listings, setListings] = useState([]);
-  const url = "http://192.168.86.235:3001/api/user/" + userId + "/get-listings";
+  const [haveStore, sethaveStore] = useState(false);
+  const url = "http://192.168.86.235:3001/api/user/" + userId + "/have-store";
 
   useEffect(() => {
-    const fetchAndSetListings = async () => {
+    const fetchAndSetHaveStore = async () => {
       await axios
         .get(url)
         .then((response) => {
           const data = response.data;
-          setListings(data);
+          sethaveStore(data);
         })
         .catch((error) => console.log(error));
     };
-    fetchAndSetListings();
+    fetchAndSetHaveStore();
   }, []);
-  return listings;
+  return haveStore;
 }

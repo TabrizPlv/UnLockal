@@ -2,22 +2,22 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { getUserId } from "../User-Info-Functions";
 
-export async function handleGetListing() {
+export async function handleGetUserListing() {
   const userId = await getUserId("userToken");
-  const [listings, setListings] = useState([]);
+  const [userListing, setUserListing] = useState('');
   const url = "http://192.168.86.235:3001/api/user/" + userId + "/get-listings";
 
   useEffect(() => {
-    const fetchAndSetListings = async () => {
+    const fetchAndSetUserListing = async () => {
       await axios
         .get(url)
         .then((response) => {
           const data = response.data;
-          setListings(data);
+          setUserListing(data);
         })
         .catch((error) => console.log(error));
     };
-    fetchAndSetListings();
+    fetchAndSetUserListing();
   }, []);
-  return listings;
+  return userListing;
 }

@@ -16,7 +16,8 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import * as ImagePicker from "expo-image-picker";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { handleAddListing } from "../src/ClientRequests/addListing";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getUserId } from "../src/User-Info-Functions";
 
 export default function ListProductsPage() {
   const [productName, setProductName] = useState("");
@@ -26,7 +27,18 @@ export default function ListProductsPage() {
   const [isUploading, setIsUploading] = useState(false);
   const [imageuris, setImageuris] = useState([]);
   const [imageObjects, setImageObjects] = useState([]);
-  let imageUrls = [];
+  const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+    //Retrieve UserId
+    // in the background
+    const helper = async () => {
+      await getUserId("userToken")
+        .then((res) => setUserId(res))
+        .catch((error) => console.log("error getting id"));
+    };
+    helper();
+  }, []);
 
   //Only works if user does not decline the first time
   async function pickImage() {
@@ -68,7 +80,8 @@ export default function ListProductsPage() {
       imageObjects.map(async function (imageObject) {
         console.log("running map");
         let helper;
-        const reference = ref(storageRef, Math.random().toString());
+        const refer = ref(storageRef, userId);
+        const reference = ref(refer, Math.random());
         const img = await fetch(imageObject.uri);
         const bytes = await img.blob();
         await uploadBytes(reference, bytes)
@@ -84,19 +97,21 @@ export default function ListProductsPage() {
         return helper;
       })
     );
-    imageUrls = res;
     setIsUploading(false);
+    return res;
   };
 
   const Submit = async () => {
-    await uploadImage();
+    const imageurls = await uploadImage();
     console.log("upload done!");
-    handleAddListing({
+    await handleAddListing({
       productName: productName,
       productDescription: productDescription,
       productPrice: productPrice,
-      productImages: imageUrls,
-    });
+      productImages: imageurls,
+    })
+      .then(() => console.log("Listing added!"))
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -153,7 +168,7 @@ export default function ListProductsPage() {
         </View>
 
         <Text style={{ marginTop: 10, marginLeft: 13, marginBottom: 20 }}>
-          Add Images of your products
+          Add Images of your product
         </Text>
 
         <View style={styles.addImageContainer}>

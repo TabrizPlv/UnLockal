@@ -11,7 +11,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/core";
 import { handleSignUp } from "../src/ClientRequests/signUpUser";
 import { handleLogin } from "../src/ClientRequests/login";
-import { save, getValueFor } from "../src/User-Info-Functions";
+import { save } from "../src/User-Info-Functions";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
