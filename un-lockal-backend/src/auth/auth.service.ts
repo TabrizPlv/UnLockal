@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, ConsoleLogger, HttpException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { ExistingUserDto } from 'src/user/dtos/existing-user.dto';
@@ -20,7 +20,7 @@ export class AuthService {
   async register(user: Readonly<NewUserDto>): Promise<UserDetails | any> {
     const { email, password } = user;
     const existingUser = await this.userService.findByEmail(email);
-    if (existingUser) return 'Email taken!';
+    if (existingUser) throw new BadRequestException('Email already taken!');
     const hashedPassword = await this.hashPassword(password);
     const newUser = await this.userService.create(email, hashedPassword);
     return this.userService._getUserDetails(newUser);
@@ -39,24 +39,24 @@ export class AuthService {
   ): Promise<UserDetails | null> {
     const user = await this.userService.findByEmail(email);
     const doesUserExist = !!user;
-    if (!doesUserExist) return null;
+    if (!doesUserExist) throw new BadRequestException("Account does not exist!");
 
     const doesPasswordMatch = await this.doesPasswordMatch(
       password,
       user.password,
     );
 
-    if (!doesPasswordMatch) return null;
+    if (!doesPasswordMatch) {throw new BadRequestException("Wrong password!")};
 
     return this.userService._getUserDetails(user);
   }
 
   async login(
     existingUser: ExistingUserDto,
-  ): Promise<{ token: string } | null> {
+  ): Promise<{ token: string } | any> {
     const { email, password } = existingUser;
     const user = await this.validateUser(email, password);
-    if (!user) return null;
+    if (!user) return 'Wrong email or password!';
     const jwt = await this.jwtService.signAsync({ user });
     return { token: jwt };
   }

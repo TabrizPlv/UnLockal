@@ -8,50 +8,32 @@ import {
   Image,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { signup, signin, auth } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
-import {setDoc, doc} from "firebase/firestore";
-import { db } from "../firebase";
 import { handleSignUp } from "../src/ClientRequests/signUpUser";
-
+import { handleLogin } from "../src/ClientRequests/login";
+import { save, getValueFor } from "../src/User-Info-Functions";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
   const navigation = useNavigation();
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        navigation.replace("MainContainer");
-      }
-    });
-
-    return unsubscribe;
-  }, []);
-
-  const handleSignUp = () => {
-    signup(email, password)
-      .then((userCredentials) => {
-        const user = userCredentials.user;
-        setDoc(doc(db, 'users', user.uid), {
-          userName : '',
-          haveStore : false,
-        });
-        console.log("Registered with:", user.email);
+  async function login(em, pw) {
+    const loggingIn = await handleLogin({ email: em, password: pw })
+      .then((response) => {
+        save("userToken", response);
+        if (response) {
+          navigation.replace("MainContainer");
+        } else {
+          alert("Error logging in! Try again!");
+        }
       })
-      .catch((error) => alert(error.message)) 
-  };
+      .catch((error) => console.log(error));
+  }
 
-  const handleLogin = () => {
-    signin(email, password)
-      .then((userCredentials) => {
-        const user = userCredentials.user;
-        console.log("Logged in with:", user.email);
-      })
-      .catch((error) => alert(error.message))
-  };
+  function signup(em, pw) {
+    handleSignUp({ email: em, password: pw });
+  }
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
@@ -62,25 +44,26 @@ const LoginScreen = () => {
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Email"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
+          onChangeText={setEmail}
           style={styles.input}
         />
         <TextInput
           placeholder="Password"
-          value={password}
-          onChangeText={(text) => setPassword(text)}
+          onChangeText={setPassword}
           style={styles.input}
-          secureTextEntry
+          secureTextEntry={true}
         />
       </View>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={handleLogin} style={styles.button}>
+        <TouchableOpacity
+          onPress={() => login(email, password)}
+          style={styles.button}
+        >
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={handleSignUp}
+          onPress={() => signup(email, password)}
           style={[styles.button, styles.buttonOutline]}
         >
           <Text style={styles.buttonOutlineText}>Register</Text>

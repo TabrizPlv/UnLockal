@@ -9,7 +9,6 @@ import MainContainer from './Screens/ProfilePageAsset/MainContainer';
 import LoginScreen from "./Screens/LoginScreen";
 import ListProductsPage from "./Screens/ListProductsPage";
 import UpdatedStorePage from './Screens/UpdatedStorePage';
-import EditProfile from "./Screens/EditProfilePage";
 import EditProfilePage from "./Screens/EditProfilePage";
 import Details from "./Screens/Details";
 
