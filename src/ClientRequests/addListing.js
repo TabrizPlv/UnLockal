@@ -1,9 +1,7 @@
 import axios from "axios";
-import { getUserId } from "../User-Info-Functions";
 
-export async function handleAddListing(listingDetails) {
-  const userId = await getUserId("userToken");
-  const url = "http://192.168.86.235:3001/api/user/" + userId + "/add-listing";
+export function handleAddListing(listingDetails) {
+  const url = "http://192.168.86.235:3001/business/create-listing";
   axios
     .post(url, 
         {

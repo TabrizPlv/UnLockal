@@ -19,11 +19,13 @@ export class UserService {
     };
   }
   async create(email: string, hashedPassword: string): Promise<UserDocument> {
+    
     const newUser = new this.userModel({
       email,
       password: hashedPassword,
       business: { store: {}, listings: [] },
     });
+
     return newUser.save();
   }
 
@@ -57,8 +59,7 @@ export class UserService {
 
   async createStore(id: string, inputStore: Store) {
     const user = await this.userModel.findById(id);
-    const biz = user.business;
-    biz.store = inputStore;
+    user.business.store = inputStore;
     await user.save();
   }
 

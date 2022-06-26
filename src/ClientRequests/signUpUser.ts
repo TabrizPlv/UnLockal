@@ -2,7 +2,7 @@ import axios from "axios";
 import { NewUserDto } from "../../un-lockal-backend/dist/user/dtos/new-user.dto";
 
 export async function handleSignUp(newUserDto : NewUserDto) {
-  const url = "http://192.168.86.235:3001/api/auth/register";
+  const url = "http://192.168.50.75:3001/api/auth/register";
   return axios
     .post(url, newUserDto)
     .then((response) => {

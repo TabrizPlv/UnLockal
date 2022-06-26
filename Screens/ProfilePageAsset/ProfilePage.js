@@ -25,7 +25,7 @@ export default function ProfilePage({ navigation }) {
   const [userEmail, setUserEmail] = useState("");
 
   useEffect(() => {
-    //Retrieve User's email
+    //Retrieve UserId and User's email
     // in the background
     const helper = async () => {
       await getUserEmail("userToken")

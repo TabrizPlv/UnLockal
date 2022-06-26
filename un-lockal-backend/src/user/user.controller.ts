@@ -1,4 +1,8 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserDetails } from './dtos/user-details.interface';
 import { UserListing } from './dtos/user-listing.interface';
@@ -7,9 +11,7 @@ import { Listing } from 'src/business/listing/schemas/listing.schema';
 
 @Controller('user')
 export class UserController {
-  constructor(
-    private readonly userService: UserService,
-  ) {}
+  constructor(private readonly userService: UserService) {}
 
   //returns user Id and email
   @Get(':id')
@@ -29,6 +31,7 @@ export class UserController {
   getStore(@Param('id') id: string): Promise<Store | null> {
     return this.userService.getStore(id);
   }
+
 
   //returns all user listings
   @Get(':id/get-listings')
@@ -50,4 +53,10 @@ export class UserController {
   haveStore(@Param('id') id: string): Promise<boolean> {
     return this.userService.haveStore(id);
   }
+
+  @Get(':id/listings')
+  getListings(@Param('id') id: string): Promise<Listing[] | null> {
+    return this.userService.getAllListing(id);
+  }
+
 }
