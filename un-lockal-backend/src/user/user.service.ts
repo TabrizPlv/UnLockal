@@ -6,6 +6,8 @@ import { Model } from 'mongoose';
 import { UserDocument } from './schemas/user.schema';
 import { UserDetails } from './user-details.interface';
 import { Listing } from 'src/business/listing/schemas/listing.schema';
+import { BusinessDocument } from 'src/business/schemas/business.schema';
+import { StoreDto } from 'src/business/dtos/store.dto';
 
 @Injectable()
 export class UserService {
@@ -20,7 +22,7 @@ export class UserService {
     };
   }
   async create(email: string, hashedPassword: string): Promise<UserDocument> {
-    const newUser = new this.userModel({ email, password: hashedPassword });
+    const newUser = new this.userModel({ email, password: hashedPassword, business: {store:{}, listings:[]}});
     return newUser.save();
   }
 
@@ -54,7 +56,8 @@ export class UserService {
 
   async createStore(id: string, inputStore: Store) {
     const user = await this.userModel.findById(id);
-    user.business.store = inputStore;
+    const biz = user.business;
+    biz.store = inputStore;
     await user.save();
   }
 
