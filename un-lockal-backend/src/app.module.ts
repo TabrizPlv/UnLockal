@@ -5,9 +5,10 @@ import { BusinessController } from './business/controller/business/business.cont
 import { BusinessService } from './business/services/business.service';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { UserController } from './user/user.controller';
 
 @Module({
-  imports: [UserModule, BusinessModule, MongooseModule.forRoot('mongodb://localhost:3001/test')],
+  imports: [AuthModule, UserModule, BusinessModule, MongooseModule.forRoot('mongodb+srv://Tabriz:password1234@unlockal.nnkxw.mongodb.net/test')],
   controllers: [BusinessController],
   providers: [BusinessService],
 })
