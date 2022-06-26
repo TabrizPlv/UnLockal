@@ -1,38 +1,60 @@
-import * as React from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/core";
+import React, {useEffect, useState} from "react";
+import { FlatList, SafeAreaView, StyleSheet, Text, Image, View } from "react-native";
 
-export default function HomeScreenMarketPlace({ navigation }) {
-  const navigationn = useNavigation();
+
+
+const BASE_URI = 'https://source.unsplash.com/random?sig=1';
+
+export default function HomeScreenMarketPlace() {
+
+  const [data, setDate] = useState([]);
+  useEffect(() => {
+    fetchMore();
+  }, []);
+  const fetchMore = () => {
+    setDate(prevState => [
+      ...prevState,
+      ...Array.from({length:20}).map((_, i) => i + 1 + prevState.length),
+    ]);
+  };
+
   return (
-    <View style={styles.container}>
-      <View style={{ marginHorizontal: 10 }}>
-        <Text style={styles.message}>
-          Marketplace coming soon!
-        </Text>
-        <TouchableOpacity style = {styles.button} onPress = {() => navigationn.navigate("EmptyStoreTemplate")}>
-          <Text>Edit your store instead</Text>
-        </TouchableOpacity>
+    <SafeAreaView>
+      <View style = {styles.unlockalView}>
+        <Text style = {styles.unlockalText}>Unlockal</Text>
+        <Text style = {styles.unlockalcaptionText}>a platform for local businesses</Text>
       </View>
-    </View>
+      <FlatList 
+        data = {data}
+        onEndReached={fetchMore}
+        renderItem = {({item}) => (
+          <Image source = {{uri: BASE_URI + item}} style = {styles.item}/>
+        )}
+      />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 10
+  unlockalView: {
+    alignItems:"center",
+    backgroundColor:"black",
+    padding: 10
   },
-  message: {
-    color: "black",
-    padding: 20,
+  unlockalText:{
+    fontFamily: "Rockwell",
+    fontSize:20,
+    color: '#ffae0d'
   },
-  button: {
-    alignItems: 'center',
-    padding: 20,
-    backgroundColor: 'teal',
-    borderRadius: 10
+  unlockalcaptionText: {
+    fontSize:10,
+    fontFamily: 'Rockwell',
+    color: "white"
+  },
+  item: {
+    aspectRatio: 1,
+    width: '100%',
+    borderRadius: 30,
+    marginTop: 10
   }
 });
