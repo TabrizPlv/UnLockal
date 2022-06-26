@@ -2,6 +2,9 @@ import {
   Controller,
   Get,
   Param,
+  Post,
+  Body,
+  Put
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserDetails } from './dtos/user-details.interface';
@@ -52,11 +55,6 @@ export class UserController {
   @Get(':id/have-store')
   haveStore(@Param('id') id: string): Promise<boolean> {
     return this.userService.haveStore(id);
-  }
-
-  @Get(':id/listings')
-  getListings(@Param('id') id: string): Promise<Listing[] | null> {
-    return this.userService.getAllListing(id);
   }
 
 }
