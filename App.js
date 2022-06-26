@@ -11,6 +11,7 @@ import ListProductsPage from "./Screens/ListProductsPage";
 import UpdatedStorePage from './Screens/UpdatedStorePage';
 import EditProfilePage from "./Screens/EditProfilePage";
 import Details from "./Screens/Details";
+import NewProfilePage from "./Screens/ProfilePageAsset/NewProfilePage";
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +28,7 @@ export default function App() {
         <Stack.Screen options ={{headerShown : false}} name="UpdatedStorePage" component={UpdatedStorePage}/> 
         <Stack.Screen options ={{headerShown : false}} name="EditProfilePage" component = {EditProfilePage}/>
         <Stack.Screen options ={{headerShown : false}} name="Details" component = {Details}/>
+        <Stack.Screen options ={{headerShown : false}} name="newProfilePage" component = {NewProfilePage}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

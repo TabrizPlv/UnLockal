@@ -8,7 +8,7 @@ const NFTData = [
     price: 4.25,
     description:
       "The action painter abstract expressionists were directly influenced by automatism. Pollock channelled this into producing gestural. The action painter abstract expressionists were directly influenced by automatism. Pollock channelled this into producing gestural. The action painter abstract expressionists were directly influenced by automatism. Pollock channelled this into producing gestural.",
-    image: assets.t,
+    image: assets.nft01,
     bids: [
       {
         id: "BID-11",
@@ -192,3 +192,4 @@ const NFTData = [
 ];
 
 export { NFTData };
+
