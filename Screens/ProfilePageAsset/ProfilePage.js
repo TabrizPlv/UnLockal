@@ -1,7 +1,5 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../firebase";
 import {
   View,
   StyleSheet,
@@ -12,18 +10,11 @@ import {
   Dimensions,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { auth } from "../../firebase";
 import { useNavigation } from "@react-navigation/core";
-import { onAuthStateChanged } from "firebase/auth";
-
-let currentUserUid;
-
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    const uid = user.uid;
-    currentUserUid = uid;
-  }
-});
+import {
+  deleteToken,
+  getUserEmail,
+} from "../../src/User-Info-Functions";
 
 const screenHeight = Dimensions.get("screen").height;
 const screenWidth = Dimensions.get("screen").width;
@@ -31,27 +22,31 @@ const screenWidth = Dimensions.get("screen").width;
 export default function ProfilePage({ navigation }) {
   const [haveStore, setHaveStore] = useState(true);
   const navigationn = useNavigation();
+  const [userEmail, setUserEmail] = useState("");
 
-  const handleSignOut = () => {
-    auth
-      .signOut()
-      .then(() => {
+  useEffect(() => {
+    //Retrieve UserId and User's email
+    // in the background
+    const helper = async () => {
+      await getUserEmail("userToken")
+        .then((res) => setUserEmail(res))
+        .catch((error) => console.log("error getting id"));
+    };
+    helper();
+  }, []);
+
+  const handleSignOut = async () => {
+    await deleteToken("userToken")
+      .then((response) => {
         navigationn.replace("Login");
+        console.log("Signed out successfully!");
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => {
+        console.log(error);
+        alert("Error signing out!");
+      });
   };
 
-  // const retrieveStore = async () => {
-  //   const docRef = doc(db, "users", currentUserUid);
-  //   const docSnap = await getDoc(docRef);
-  //   const allData = docSnap.data();
-  //   console.log(allData.haveStore);
-  //   setHaveStore(allData.haveStore);
-  // };
-  // useEffect(() => {
-  //   retrieveStore();
-  // }, []);
-//retrieveStore();
   const OnPressViewStore = () => {
     // return haveStore
     //   ? navigationn.navigate("UpdatedStorePage")
@@ -73,9 +68,7 @@ export default function ProfilePage({ navigation }) {
         </View>
 
         <View style={styles.usernameView}>
-          <Text style={styles.usernameText}>
-            Signed In With: {auth.currentUser?.email}
-          </Text>
+          <Text style={styles.usernameText}>Signed In With: {userEmail}</Text>
         </View>
         {/*Edit Profile*/}
         <View style={styles.buttonView}>
