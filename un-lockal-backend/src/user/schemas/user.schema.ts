@@ -14,7 +14,7 @@ export class User {
   @Prop({ required: true })
   password: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Business' })
+  @Prop()
   business: Business;
 }
 

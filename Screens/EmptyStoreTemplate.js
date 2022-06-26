@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
   StyleSheet,
@@ -10,7 +10,6 @@ import {
   Dimensions,
   StatusBar,
   Pressable,
-  ImageBackground,
   ActivityIndicator,
 } from "react-native";
 
@@ -18,21 +17,33 @@ import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from "@react-navigation/core";
 import { handleEditStore } from "../src/ClientRequests/editStore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getUserId } from "../src/User-Info-Functions";
 
 export default function EmptyStoreTemplate() {
   const [storeTitle, setStoreTitle] = useState("");
   const [storeImage, setStoreImage] = useState(null);
   const [isImageSelected, setIsImageSelected] = useState(false);
   const [storeDescription, setStoreDescription] = useState("");
-  const [storeImageUrl, setStoreImageUrl] = useState("");
   const [galleryPermission, setGalleryPermission] = useState(false);
   const [imagePicked, setimagePicked] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [userId, setUserId] = useState("");
   const navigation = useNavigation();
 
+  useEffect(() => {
+    //Retrieve UserId
+    // in the background
+    const helper = async () => {
+      await getUserId("userToken")
+        .then((res) => setUserId(res))
+        .catch((error) => console.log("error getting id"));
+    };
+    helper();
+  }, []);
+
   let Submit = async () => {
-    await uploadImage(imagePicked);
-    await handleEditStore({ storeTitle, storeDescription, storeImageUrl });
+    const imageurl = await uploadImage(imagePicked);
+    await handleEditStore({ storeTitle, storeDescription, imageurl });
     alert("submitted!");
   };
   //Only works if user does not decline the first time
@@ -61,12 +72,13 @@ export default function EmptyStoreTemplate() {
 
   //upload image to firebase Storage and
   //upload image URL to fireStore
+  //returns image URL reference
   const uploadImage = async (result) => {
     if (!result.cancelled) {
       setIsUploading(true);
       const storage = getStorage();
       const storageRef = ref(storage, "/StoreImages");
-      const reference = ref(storageRef /*,'insert file name here'*/);
+      const reference = ref(storageRef, userId);
       const img = await fetch(result.uri);
       const bytes = await img.blob();
       await uploadBytes(reference, bytes)
@@ -77,22 +89,20 @@ export default function EmptyStoreTemplate() {
           console.log(error);
         });
 
-      await getDownloadURL(reference)
-        .then((url) => {
-          setStoreImageUrl(url);
-          setIsUploading(false);
-        })
-        .catch((error) => {
-          console.log(error);
-          setIsUploading(false);
-        });
+      const url = await getDownloadURL(reference);
+      if(url) {
+        setIsUploading(false);
+        return url;
+      } else {
+        console.log("url not updated");
+        setIsUploading(false);
+      }
     }
   };
 
   return (
-    <SafeAreaView style= {styles.overallContainer}>
+    <SafeAreaView style={styles.overallContainer}>
       <KeyboardAwareScrollView>
-
         <StatusBar barStyle="dark-content" />
         {isUploading && (
           <ActivityIndicator size="large" style={styles.LoadingIndicator} />
@@ -107,8 +117,7 @@ export default function EmptyStoreTemplate() {
           />
         </View>
 
-
-        <View style = {styles.addImageView}>
+        <View style={styles.addImageView}>
           <Pressable style={styles.AddImageButton} onPress={pickImage}>
             {isImageSelected ? (
               <Image
@@ -120,9 +129,9 @@ export default function EmptyStoreTemplate() {
             )}
           </Pressable>
         </View>
-        
-        <View style = {styles.aboutBusinessView}>
-          <Text style = {styles.aboutBusinessText}> About The Business </Text>
+
+        <View style={styles.aboutBusinessView}>
+          <Text style={styles.aboutBusinessText}> About The Business </Text>
         </View>
 
         <View style={styles.DescriptionView}>
@@ -149,7 +158,6 @@ export default function EmptyStoreTemplate() {
             </Pressable>
           </View>
         </View>
-
       </KeyboardAwareScrollView>
     </SafeAreaView>
   );
@@ -157,7 +165,7 @@ export default function EmptyStoreTemplate() {
 const styles = StyleSheet.create({
   overallContainer: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
   LoadingIndicator: {
     zIndex: 5,
@@ -166,41 +174,41 @@ const styles = StyleSheet.create({
   },
   StoreTitleView: {
     alignContent: "center",
-    justifyContent: 'center',
+    justifyContent: "center",
     fontSize: 50,
-    padding: 10
+    padding: 10,
   },
   StoreTitleText: {
     fontSize: 35,
     textAlign: "center",
-    fontFamily:'Papyrus',
+    fontFamily: "Papyrus",
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: "center",
   },
   addImageView: {
-    width: '90%',
-    height: '50%',
-    alignSelf:'center',
-    marginTop:20
+    width: "90%",
+    height: "50%",
+    alignSelf: "center",
+    marginTop: 20,
   },
   AddImageButton: {
     backgroundColor: "#F5F5F5",
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 10
+    marginBottom: 10,
   },
   AddImageText: {
     fontSize: 20,
-    fontFamily: 'Palatino'
+    fontFamily: "Palatino",
   },
   aboutBusinessView: {
-    marginLeft: 40
+    marginLeft: 40,
   },
   aboutBusinessText: {
-    marginTop: 20, 
+    marginTop: 20,
     fontSize: 20,
-    fontFamily: 'Papyrus'
+    fontFamily: "Papyrus",
   },
   DescriptionView: {
     height: Dimensions.get("window").height * 0.2,
@@ -208,21 +216,20 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     marginLeft: 40,
     flex: 1,
-    flexWrap: 'wrap'
+    flexWrap: "wrap",
   },
   DescriptionText: {
     fontSize: 20,
     color: "black",
     fontFamily: "Palatino",
-    flexWrap: 'wrap',
+    flexWrap: "wrap",
   },
   ButtonView: {
     height: Dimensions.get("window").height * 0.1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     flexDirection: "row",
-    marginTop: 110
-    
+    marginTop: 110,
   },
   CancelButton: {
     height: "50%",
@@ -231,7 +238,7 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 10
+    borderRadius: 10,
   },
   SubmitButton: {
     height: "50%",
@@ -240,10 +247,10 @@ const styles = StyleSheet.create({
     backgroundColor: "teal",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 10
+    borderRadius: 10,
   },
   ButtonText: {
     fontSize: 20,
-    color: 'white'
+    color: "white",
   },
 });
