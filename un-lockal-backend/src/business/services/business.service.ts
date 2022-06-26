@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Business } from '../schemas/business.schema';
 import { BusinessRepository } from '../schemas/business.repository';
 import { UpdateStoreDto } from '../dtos/updateStore.dto';
-import { ObjectId } from 'mongoose';
+import { ObjectId } from 'mongoose'
 import { UpdateListingDto } from '../listing/dtos/updateListing.dto';
 import { PaginationParameters } from '../listing/dtos/pagination-paramters.dto';
 import { Listing } from '../listing/schemas/listing.schema';
