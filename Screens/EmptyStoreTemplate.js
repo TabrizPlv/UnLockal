@@ -165,22 +165,23 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   StoreTitleView: {
-    backgroundColor: "white",
-    height: Dimensions.get("window").height * 0.1,
     alignContent: "center",
-    justifyContent: "center",
+    justifyContent: 'center',
     fontSize: 50,
-    flex: 1,
+    padding: 10
   },
   StoreTitleText: {
     fontSize: 35,
     textAlign: "center",
-    fontFamily:'Papyrus'
+    fontFamily:'Papyrus',
+    flex: 1,
+    justifyContent: 'center'
   },
   addImageView: {
     width: '90%',
     height: '50%',
-    alignSelf:'center'
+    alignSelf:'center',
+    marginTop:20
   },
   AddImageButton: {
     backgroundColor: "#F5F5F5",
@@ -217,11 +218,11 @@ const styles = StyleSheet.create({
   },
   ButtonView: {
     height: Dimensions.get("window").height * 0.1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     flexDirection: "row",
-    marginHorizontal: 10,
-    marginTop: 100,
+    marginTop: 110
+    
   },
   CancelButton: {
     height: "50%",

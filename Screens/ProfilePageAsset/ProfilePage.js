@@ -83,9 +83,7 @@ export default function ProfilePage({ navigation }) {
             style={styles.buttonStyle}
             name="account-edit"
             backgroundColor="teal"
-            onPress={() => {
-              alert("Directed to edit profile page");
-            }}
+            onPress={() => navigation.navigate("EditProfilePage")}
             size={30}
           >
             <Text style={styles.buttonText}>Edit Profile</Text>
