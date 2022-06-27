@@ -27,7 +27,7 @@ const DetailsDesc = ({ data }) => {
         <EthPrice price = {data.business.store.storeTitle} />
       </View>
 
-      <View style = {{marginVertical: SIZES.extraLarge * 1.5}}>
+      <View style = {{marginTop: SIZES.extraLarge}}>
         <Text style = {{
           fontSize: SIZES.font,
           color: COLORS.primary,

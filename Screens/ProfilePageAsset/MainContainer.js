@@ -6,7 +6,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Screens
 import HomeScreenMarketPlace from '../HomeScreenMarketPlace';
-import ProfilePage from './ProfilePage';
 import NewProfilePage from "./NewProfilePage";
 
 //Screen names
