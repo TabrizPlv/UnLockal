@@ -3,6 +3,8 @@ import { UserService } from './user.service';
 import { UserDetails } from './dtos/user-details.interface';
 import { Store } from 'src/business/schemas/store.schema';
 import { Listing } from 'src/business/listing/schemas/listing.schema';
+import { User } from './schemas/user.schema';
+import { Document } from 'mongoose';
 
 @Controller('user')
 export class UserController {
@@ -40,5 +42,10 @@ export class UserController {
   @Get(':id/have-store')
   haveStore(@Param('id') id: string): Promise<boolean> {
     return this.userService.haveStore(id);
+  }
+
+  @Get('getAllUsersWithListings')
+  getAllUserWithListings(@Param('id') id: string): Promise<(User & Document)[]> {
+    return this.userService.getAllUserWithListings();
   }
 }
