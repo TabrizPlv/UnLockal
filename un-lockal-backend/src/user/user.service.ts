@@ -16,7 +16,7 @@ export class UserService {
     return {
       id: user._id,
       email: user.email,
-      business : user.business
+      business: user.business,
     };
   }
   async create(email: string, hashedPassword: string): Promise<UserDocument> {
@@ -89,4 +89,11 @@ export class UserService {
     );
   }
 
+  async getAllUserWithListings() {
+    const allUserWithListings = await this.userModel
+      .where('business.listings')
+      .exists(true)
+      .ne([]);
+    return allUserWithListings;
+  }
 }
