@@ -9,7 +9,7 @@ export default function EditProfilePage() {
     <View style = {styles.container}>
       <Text style = {styles.text}>Edit Profile coming soon</Text>
       <View style = {styles.buttonView}>
-        <Pressable onPress={() => navigation.navigate("newProfilePage")}>
+        <Pressable onPress={() => navigation.navigate("MainContainer")}>
           <Text style={styles.ButtonText}>Back to home</Text>
         </Pressable>
       </View>

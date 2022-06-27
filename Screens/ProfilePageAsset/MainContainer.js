@@ -7,6 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 //Screens
 import HomeScreenMarketPlace from '../HomeScreenMarketPlace';
 import ProfilePage from './ProfilePage';
+import NewProfilePage from "./NewProfilePage";
 
 //Screen names
 const HomeScreenName = 'Home';
@@ -33,7 +34,7 @@ export default function MainContainer() {
          }) 
         }>
             <Tab.Screen name={HomeScreenName} component={HomeScreenMarketPlace}/>
-            <Tab.Screen name={ProfilePageName} component={ProfilePage}/>
+            <Tab.Screen name={ProfilePageName} component={NewProfilePage}/>
         </Tab.Navigator>
   );
 }

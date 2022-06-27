@@ -2,6 +2,7 @@ import { View, Text, Image, TextInput } from 'react-native'
 import React from 'react'
 import { COLORS, FONTS, SIZES, assets } from '../assets/constants'
 
+
 const MarketplaceHeader = ({onSearch}) => {
   return (
     <View style = {{
@@ -19,7 +20,7 @@ const MarketplaceHeader = ({onSearch}) => {
         </View>
         <View style = {{width: 45, height:45}}>
           <Image
-            source = {assets.person01}
+            source = {assets.person03}
             resizeMode = "contain"
             style = {{ width: '100%', height: '100%' }}
           />

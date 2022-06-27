@@ -2,12 +2,16 @@ import { View, Text, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { handleGetUserListing } from '../../src/ClientRequests/getUser'
 
-const test = () => {
+const Test = () => {
     const [data, setData] = useState(null);
-    useEffect(async () => {
-        const data1 = await handleGetUserListing();
-        setData(data1);
-    }, []);
+    useEffect(() => {
+        const helper = async () => {
+            const data1 = await handleGetUserListing();
+            setData(data1);
+        };
+        helper();
+    }
+        , []);
 
     return (
         <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
@@ -16,4 +20,4 @@ const test = () => {
     )
 }
 
-export default test
+export default Test
