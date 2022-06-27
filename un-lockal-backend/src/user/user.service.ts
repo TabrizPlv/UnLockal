@@ -16,6 +16,7 @@ export class UserService {
     return {
       id: user._id,
       email: user.email,
+      business : user.business
     };
   }
   async create(email: string, hashedPassword: string): Promise<UserDocument> {
@@ -88,8 +89,4 @@ export class UserService {
     );
   }
 
-  async getUserListing(id: string) {
-    const user = await this.userModel.findById(id);
-    return { id: user.id, email: user.email, business: user.business };
-  }
 }
