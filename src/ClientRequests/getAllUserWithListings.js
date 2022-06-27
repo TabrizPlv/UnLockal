@@ -1,8 +1,9 @@
 import axios from "axios";
+import {ip} from './index'
 
 export async function handleGetAllUsersWithListings() {
   const url =
-    "http://192.168.86.235:3001/api/user/getAllUsersWithListings";
+  "http://" + ip + ":3001/api/user/getAllUsersWithListings";
   const users = await axios
     .get(url)
     .then((response) => {

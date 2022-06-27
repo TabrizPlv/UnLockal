@@ -6,11 +6,11 @@ import { CircleButton, RectButton, SubInfo, DetailsDesc, DetailsBid } from '../c
 const DetailsHeader = ({data, navigation}) => (
   <View style = {{ width: '100%', height: 373}}>
     <Image 
-      source = {data.image}
+      source = {{uri: data.business.store.storeImageURL}}
       resizeMode = "cover"
       style = {{width : '100%', height: '100%'}}
     />
-
+    
     <CircleButton
       imgUrl={assets.left}
       handlePress = {() => navigation.goBack()}
@@ -37,8 +37,8 @@ const Details = ({ route, navigation }) => {
   return (
     <SafeAreaView style = {{flex: 1}}>
       <FlatList
-        data = {data.bids}
-        renderItem = {({item}) => <DetailsBid bid = {item} 
+        data = {data.business.listings}
+        renderItem = {({item}) => <DetailsBid listing = {item}
         keyExtractor = {(item) => item.id}/>}
         showsVerticalScrollIndicator = {false}
         contentContainerStyle = {{paddingBottom: SIZES.extraLarge * 3}}
@@ -49,7 +49,7 @@ const Details = ({ route, navigation }) => {
             <View style = {{padding: SIZES.font}}>
               <DetailsDesc data = {data} />
 
-              {data.bids.length > 0 && (
+              {data.business.listings.length > 0 && (
                 <Text style = {{
                   fontSize: SIZES.font,
                   color: COLORS.primary

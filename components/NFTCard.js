@@ -20,8 +20,8 @@ const NFTCard = ({data}) => {
     }}>
       <View style = {{ width: '100%', height: 250}}>
         <Image 
-          source = {data.image} // to change this to store's image uri
-          resizeMode = "cover"
+          source = {{uri: data.business.store.storeImageURL}} // to change this to store's image uri
+          resizeMode = "conver"
           style = {{
             width: "100%",
             height: "100%",
@@ -36,8 +36,8 @@ const NFTCard = ({data}) => {
 
       <View style = {{ width: "100%", padding: SIZES.font}}>
           <NFTTitle 
-            title = {data.name}
-            subTitle = {data.creator}
+            title = {data.business.store.storeTitle}
+            subTitle = {data.email}
             titleSize = {SIZES.large}
             subTitleSize = {SIZES.small}
           />
@@ -48,11 +48,10 @@ const NFTCard = ({data}) => {
             justifyContent: "space-between",
             alignItems: "center",
           }}>
-            <EthPrice price = {data.price}/>
             <RectButton
               minWidth ={120}
               fontSize = {SIZES.font}
-              handlePress={() => navigation.navigate("Details", { data })}
+              handlePress={() => navigation.navigate("Details", {data})}
             />
           </View>
       </View>

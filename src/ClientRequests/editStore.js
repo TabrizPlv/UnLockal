@@ -1,9 +1,10 @@
 import axios from "axios";
 import { getUserId } from "../User-Info-Functions";
+import {ip} from './index'
 
 export async function handleEditStore(storeDetails) {
   const userId = await getUserId("userToken");
-  const url = "http://192.168.50.75:3001/api/user/" + userId + "/create-store";
+  const url = "http://" + ip + ":3001/api/user/" + userId + "/create-store";
 
   axios
     .put(url, {

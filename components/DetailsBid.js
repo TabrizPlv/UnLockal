@@ -3,11 +3,11 @@ import { EthPrice } from './SubInfo'
 import { COLORS, SIZES, FONTS } from '../assets/constants'
 import React from 'react'
 
-const DetailsBid = ({bid}) => {
+const DetailsBid = ({listing}) => {
   return (
     <View>
       <Image
-        source = {bid.image}
+        source = {{uri: listing[1]}}
         resizeMode = "contain"
         style = {{width:48, height:48}}
       />
