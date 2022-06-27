@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { getUserId } from "../User-Info-Functions";
+import {ip} from './index'
 
 export async function handleGetListing() {
   const userId = await getUserId("userToken");
   const [haveStore, sethaveStore] = useState(false);
-  const url = "http://192.168.50.75:3001/api/user/" + userId + "/have-store";
+  const url = "http://" + ip + ":3001/api/user/" + userId + "/have-store";
 
   useEffect(() => {
     const fetchAndSetHaveStore = async () => {

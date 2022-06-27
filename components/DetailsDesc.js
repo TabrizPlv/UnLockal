@@ -6,7 +6,7 @@ import { EthPrice, NFTTitle } from './SubInfo'
 import { COLORS, SIZES, FONTS } from '../assets/constants'
 
 const DetailsDesc = ({ data }) => {
-  const [text, setText] = useState(data.description.slice(0, 100));
+  const [text, setText] = useState(data.business.store.storeDescription.slice(0, 100));
   const [readMore, setReadMore] = useState(false);
 
   return (
@@ -18,13 +18,13 @@ const DetailsDesc = ({ data }) => {
         alignItems: 'center'
       }}>
         <NFTTitle
-          title = {data.name}
-          subTitle = {data.creator}
+          title = {data.business.store.storeTitle}
+          subTitle = {data.email}
           titleSize = {SIZES.extraLarge}
           subTitleSize = {SIZES.font}
         />
 
-        <EthPrice price = {data.price} />
+        <EthPrice price = {data.business.store.storeTitle} />
       </View>
 
       <View style = {{marginVertical: SIZES.extraLarge * 1.5}}>
@@ -47,10 +47,10 @@ const DetailsDesc = ({ data }) => {
               }}
               onPress={() => {
                 if(!readMore) {
-                  setText(data.description);
+                  setText(data.business.store.storeDescription);
                   setReadMore(true);
                 } else {
-                  setText(data.description.slice(0, 100));
+                  setText(data.business.store.storeDescription.slice(0, 100));
                   setReadMore(false);                    
                 }
               }}

@@ -1,9 +1,10 @@
 import axios from "axios";
 import { getUserId } from "../User-Info-Functions";
+import {ip} from './index'
 
 export async function handleAddListing(listingDetails) {
   const userId = await getUserId("userToken");
-  const url = "http://192.168.86.235:3001/api/user/" + userId + "/add-listing";
+  const url = "http://" + ip + ":3001/api/user/" + userId + "/add-listing";
   axios
     .post(url, 
         {

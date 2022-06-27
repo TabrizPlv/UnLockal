@@ -2,22 +2,34 @@ import React, {useEffect, useState} from "react";
 import { FlatList, SafeAreaView, StyleSheet, Image, View } from "react-native";
 import { COLORS, NFTData } from "../assets/constants";
 import { NFTCard, MarketplaceHeader } from "../components";
+import { handleGetAllUsersWithListings } from "../src/ClientRequests/getAllUserWithListings";
 
 export default function HomeScreenMarketPlace() {
 
-  const [nftData, setNftData] = useState(NFTData);
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+      const helper = async () => {
+          const data1 = await handleGetAllUsersWithListings();
+          setData(data1);
+      };
+      helper();
+    }
+  , []);
+  
+  const [searchData, setSearchData] = useState(data);
 
   const handleSearch = (value) => {
-    if(value.length === 0) setNftData(NFTData);
+    if(value.length === 0) setSearchData(data);
 
-    const filteredData = NFTData.filter((item) =>
-      item.name.toLowerCase().includes(value.toLowerCase())
+    const filteredData = data.filter((item) =>
+      item.email.toLowerCase().includes(value.toLowerCase())
     );
 
     if(filteredData.length) {
-      setNftData(filteredData);
+      setSearchData(filteredData);
     } else {
-      setNftData(NFTData);
+      setSearchData(data);
     }
   }
 
@@ -26,9 +38,9 @@ export default function HomeScreenMarketPlace() {
       <View style = {{flex: 1}}>
         <View style = {{zIndex: 0}}>
           <FlatList
-            data = {nftData} // dummy data is drawn from dummy.js under assets > constants
+            data = {data} // dummy data is drawn from dummy.js under assets > constants
             renderItem = {({item}) => <NFTCard data = {item}/>}
-            keyExtractor={(item) => item.id} // states the id is the unique identifier
+            keyExtractor={(item) => item._id} // states the id is the unique identifier
             showsVerticalScrollIndicator={false}
             ListHeaderComponent={<MarketplaceHeader onSearch={handleSearch}/>}
           />
