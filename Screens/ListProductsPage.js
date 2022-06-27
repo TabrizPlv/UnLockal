@@ -18,6 +18,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { handleAddListing } from "../src/ClientRequests/addListing";
 import { useState, useEffect } from "react";
 import { getUserId } from "../src/User-Info-Functions";
+import { useNavigation } from "@react-navigation/native";
 
 export default function ListProductsPage() {
   const [productName, setProductName] = useState("");
@@ -29,6 +30,7 @@ export default function ListProductsPage() {
   const [imageObjects, setImageObjects] = useState([]);
   const [userId, setUserId] = useState("");
 
+  const navigation = useNavigation();
   useEffect(() => {
     //Retrieve UserId
     // in the background
@@ -62,11 +64,6 @@ export default function ListProductsPage() {
         })
         .catch((error) => console.log(error));
     }
-    // if (!result.cancelled) {
-    //   const img = await fetch(result.uri);
-    //   setImageuris([...imageuris, img]);
-    //   console.log("img pushed!");
-    // }
   }
 
   //upload image to firebase Storage and
@@ -110,7 +107,11 @@ export default function ListProductsPage() {
       productPrice: productPrice,
       productImages: imageurls,
     })
-      .then(() => console.log("Listing added!"))
+      .then(() => {
+        console.log("Listing added!");
+        alert("Listing added successfully!");
+        navigation.navigate("MainContainer");
+      })
       .catch((error) => console.log(error));
   };
 

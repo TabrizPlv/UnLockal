@@ -28,11 +28,7 @@ const DetailsHeader = ({data, navigation}) => (
 const Details = ({ route, navigation }) => {
   const { data } = route.params;
 
-  console.log
-  (`----------------------------`)
-  console.log(data)
-  console.log
-  (`----------------------------`) // shows data
+
 
   return (
     <SafeAreaView style = {{flex: 1}}>
@@ -46,9 +42,9 @@ const Details = ({ route, navigation }) => {
           <React.Fragment>
             <DetailsHeader data = {data} navigation = {navigation}/>
             <SubInfo/>
-            <View style = {{padding: SIZES.font}}>
+            <View style = {{paddingHorizontal: SIZES.font, paddingTop: SIZES.font}}>
               <DetailsDesc data = {data} />
-
+              <Text style = {{fontSize:SIZES.font, color:COLORS.primary, marginTop: 20, marginBottom: -25}}>Products</Text>
               {data.business.listings.length > 0 && (
                 <Text style = {{
                   fontSize: SIZES.font,
