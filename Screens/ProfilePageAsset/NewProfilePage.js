@@ -39,7 +39,7 @@ const NewProfilePage = () => {
     // return haveStore
     //   ? navigation.navigate("UpdatedStorePage")
     //   : navigation.navigate("EmptyStorePage");
-    navigation.navigate("EmptyStorePage");
+    navigation.navigate("FilledStorePage");
   };
 
   return (

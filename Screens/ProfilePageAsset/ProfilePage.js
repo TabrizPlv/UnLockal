@@ -51,7 +51,7 @@ export default function ProfilePage({ navigation }) {
     // return haveStore
     //   ? navigationn.navigate("UpdatedStorePage")
     //   : navigationn.navigate("EmptyStorePage");
-    navigationn.navigate("EmptyStorePage");
+    navigationn.navigate("FilledStorePage");
   };
   return (
     <SafeAreaView style={styles.container}>

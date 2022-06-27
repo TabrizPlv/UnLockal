@@ -5,7 +5,7 @@ import { getUserId } from "../User-Info-Functions";
 export async function handleGetListing() {
   const userId = await getUserId("userToken");
   const [listings, setListings] = useState([]);
-  const url = "http://192.168.86.235:3001/api/user/" + userId + "/get-listings";
+  const url = "http://192.168.50.75:3001/api/user/" + userId + "/get-listings";
 
   useEffect(() => {
     const fetchAndSetListings = async () => {
