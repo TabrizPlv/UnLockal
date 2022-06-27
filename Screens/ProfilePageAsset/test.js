@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { handleGetUserListing } from '../../src/ClientRequests/getUser'
+import { handleGetUserListing } from '../../src/ClientRequests/getUserDetails'
 
 const Test = () => {
     const [data, setData] = useState(null);
