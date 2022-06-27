@@ -81,7 +81,7 @@ export default function ListProductsPage() {
         console.log("running map");
         let helper;
         const refer = ref(storageRef, userId);
-        const reference = ref(refer, Math.random());
+        const reference = ref(refer, Math.random().toString());
         const img = await fetch(imageObject.uri);
         const bytes = await img.blob();
         await uploadBytes(reference, bytes)
