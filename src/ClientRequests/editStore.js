@@ -3,7 +3,7 @@ import { getUserId } from "../User-Info-Functions";
 
 export async function handleEditStore(storeDetails) {
   const userId = await getUserId("userToken");
-  const url = "http://192.168.50.75:3001/api/user/" + userId + "/create-store";
+  const url = "http://192.168.86.235:3001/api/user/" + userId + "/create-store";
 
   axios
     .put(url, {

@@ -6,11 +6,15 @@ export async function handleLogin(existingUserDto: ExistingUserDto) {
   const token = await axios
     .post(url, existingUserDto)
     .then((response) => {
-      return response.data.token;
+      if(response) {
+        return response.data.token;
+      } else {
+        return null;
+      }
     })
     .catch((error) => {
       console.log("error with login!");
-      console.log(error.response.request._response);
+      //console.log(error.response.request._response);
     });
   return token;
 }

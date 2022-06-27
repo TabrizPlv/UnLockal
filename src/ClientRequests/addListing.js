@@ -3,7 +3,7 @@ import { getUserId } from "../User-Info-Functions";
 
 export async function handleAddListing(listingDetails) {
   const userId = await getUserId("userToken");
-  const url = "http://192.168.50.75:3001/api/user/" + userId + "/add-listing";
+  const url = "http://192.168.86.235:3001/api/user/" + userId + "/add-listing";
   axios
     .post(url, 
         {

@@ -1,7 +1,8 @@
 {
   "expo": {
     "name": "Unlockal",
-    "slug": "Unlockal",
+    "slug": "unlockal",
+    "description": "Orbital 2022 by Bryan and Tabriz",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
