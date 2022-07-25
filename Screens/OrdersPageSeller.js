@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Text, View, StyleSheet, SafeAreaView, FlatList, TouchableOpacity} from 'react-native';
-import { handleGetPlacedOrders } from '../src/ClientRequests/getPlacedOrders';
+import { handleGetPendingOrders } from '../src/ClientRequests/getPendingOrders';
 
   const Item = ({ product, productqty, seller, status }) => (
     <View style={styles.item}>
@@ -21,7 +21,7 @@ const OrdersPage = () => {
 
   useEffect(() => {
     const helper = async () => {
-        const data1 = await handleGetPlacedOrders();
+        const data1 = await handleGetPendingOrders();
         setData(data1);
     };
     helper();

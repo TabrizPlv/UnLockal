@@ -34,7 +34,7 @@ const Details = ({ route, navigation }) => {
     <SafeAreaView style = {{flex: 1}}>
       <FlatList
         data = {data.business.listings}
-        renderItem = {({item}) => <DetailsBid listing = {item}
+        renderItem = {({item}) => <DetailsBid listing = {item} seller = {data.email}
         keyExtractor = {(item) => item.id}/>}
         showsVerticalScrollIndicator = {false}
         contentContainerStyle = {{paddingBottom: SIZES.extraLarge * 3}}
