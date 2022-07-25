@@ -9,4 +9,7 @@ export class StoreDto {
 
     @IsNotEmpty()
     storeImageURL : string;
+
+    @IsNotEmpty()
+    category: string;
 }
