@@ -38,7 +38,7 @@ export default function HomeScreenMarketPlace() {
       <View style = {{flex: 1}}>
         <View style = {{zIndex: 0}}>
           <FlatList
-            data = {data} // dummy data is drawn from dummy.js under assets > constants
+            data = {data} 
             renderItem = {({item}) => <NFTCard data = {item}/>}
             keyExtractor={(item) => item._id} // states the id is the unique identifier
             showsVerticalScrollIndicator={false}
