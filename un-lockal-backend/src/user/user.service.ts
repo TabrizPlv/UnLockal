@@ -96,4 +96,12 @@ export class UserService {
       .ne([]);
     return allUserWithListings;
   }
+
+  async getFilterByCategory(categories: string) {
+    const filter = await this.userModel
+      .where('business.store.category')
+      .exists(true)
+      .equals(categories);
+    return filter;
+  }
 }

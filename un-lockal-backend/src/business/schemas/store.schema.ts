@@ -10,6 +10,9 @@ export class Store {
 
     @Prop()
     storeImageURL : string;
+
+    @Prop()
+    category: string;
 }
 
 export const storeSchema = SchemaFactory.createForClass(Store);

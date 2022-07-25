@@ -48,4 +48,9 @@ export class UserController {
   getAllUserWithListings(@Param('id') id: string): Promise<(User & Document)[]> {
     return this.userService.getAllUserWithListings();
   }
+
+  @Get('filter-by-category')
+  getFilterByCategory(categories: string): Promise<(User & Document)[]> {
+    return this.userService.getFilterByCategory(categories);
+  }
 }

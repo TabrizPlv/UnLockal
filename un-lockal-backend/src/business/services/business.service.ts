@@ -4,8 +4,6 @@ import { BusinessRepository } from '../schemas/business.repository';
 import { UpdateStoreDto } from '../dtos/updateStore.dto';
 import { ObjectId } from 'mongoose'
 import { UpdateListingDto } from '../listing/dtos/updateListing.dto';
-import { PaginationParameters } from '../listing/dtos/pagination-paramters.dto';
-import { Listing } from '../listing/schemas/listing.schema';
 
 @Injectable()
 export class BusinessService {
@@ -27,11 +25,13 @@ export class BusinessService {
     storeTitle: string,
     storeDescription: string,
     storeImageURL: string,
+    category: string
   ): Promise<Business> {
     return this.businessRepository.createStore({
       storeTitle: storeTitle,
       storeDescription: storeDescription,
       storeImageURL: storeImageURL,
+      category: category
     });
   }
 
@@ -61,13 +61,5 @@ export class BusinessService {
     update: UpdateListingDto,
   ): Promise<Business> {
     return this.businessRepository.findOneAndUpdateListing({ id }, update);
-  }
-
-  async getListings(listingParameters: PaginationParameters): Promise<Listing[]> {
-    return null;//this.businessRepository.getListings(listingParameters);
-  }
-
-  async countListings(): Promise<number> {
-    return null;//this.businessRepository.countListings();
   }
 }
