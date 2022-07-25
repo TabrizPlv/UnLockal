@@ -1,23 +1,32 @@
 import React, {useEffect, useState} from "react";
 import {Text, View, StyleSheet, SafeAreaView, FlatList, TouchableOpacity} from 'react-native';
 import { handleGetPendingOrders } from '../src/ClientRequests/getPendingOrders';
+import {handleUpdateOrderStatus} from '../src/ClientRequests/updateOrderStatus';
 
-  const Item = ({ product, productqty, seller, status }) => (
+
+const OrdersPage = () => {
+
+
+
+  const [data, setData] = useState(null);
+
+  const Item = ({ productid, product, productqty, seller, status }) => (
     <View style={styles.item}>
       <Text>Product: {product}</Text>
       <Text>Qty: {productqty}</Text>
       <Text>Seller: {seller}</Text>
       <Text>Status: {status}</Text>
+      <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <Text onPress = {() => handleUpdateOrderStatus(productid, "shipped")}>Received</Text>
+        <Text>Shipped</Text>
+        <Text>Delivered</Text>
+      </View>
     </View>
   );
 
-const OrdersPage = () => {
-
   const renderItem = ({ item }) => (
-    <Item product = {item.product.productName} productqty = {item.quantity} seller = {item.seller} status = {item.status}/>
+    <Item productid = {item._id }product = {item.product.productName} productqty = {item.quantity} seller = {item.seller} status = {item.status}/>
   );
-
-  const [data, setData] = useState(null);
 
   useEffect(() => {
     const helper = async () => {

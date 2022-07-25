@@ -3,9 +3,9 @@ import { ip } from "./index";
 
 export async function handleUpdateOrderStatus(orderId, newStatus) {
   const url =
-    "http://" + ip + ":3001/api/order/" + orderId + "/update-order-status";
+  "http://" + ip + ":3001/api/order/" + orderId + "/update-order-status/" + newStatus;
   axios
-    .patch(url, { status: newStatus })
+    .patch(url)
     .then((response) => {
       console.log(response);
     })

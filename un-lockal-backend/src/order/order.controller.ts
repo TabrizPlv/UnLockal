@@ -21,8 +21,8 @@ export class OrderController {
   }
 
   //Updates the status of the order by order's _id
-  @Patch(":id/update-order-status")
-  updateOrderStatus(@Param('id') id: string, status: string): Promise<any> {
+  @Patch(":id/update-order-status/:status")
+  updateOrderStatus(@Param('id') id: string, @Param('status') status: string): Promise<any> {
     return this.orderService.updateOrderStatus(id, status);
   }
 
