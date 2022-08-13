@@ -1,6 +1,6 @@
 import { View, Text, SafeAreaView, TouchableOpacity, StyleSheet, Image } from 'react-native'
 import React from 'react'
-import { COLORS, FONTS, SIZE, assets} from '../../assets/constants'
+import { COLORS } from '../../assets/constants'
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/core";
@@ -8,7 +8,6 @@ import { deleteToken, getUserEmail } from '../../src/User-Info-Functions';
 
 
 const NewProfilePage = () => {
-  const [haveStore, setHaveStore] = useState(true);
   const navigation = useNavigation();
   const [userEmail, setUserEmail] = useState("");
 
@@ -36,9 +35,6 @@ const NewProfilePage = () => {
   };
 
   const OnPressViewStore = () => {
-    // return haveStore
-    //   ? navigation.navigate("UpdatedStorePage")
-    //   : navigation.navigate("EmptyStorePage");
     navigation.navigate("FilledStorePage");
   };
 

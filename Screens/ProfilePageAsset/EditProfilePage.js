@@ -4,13 +4,12 @@ import { useNavigation } from "@react-navigation/core";
 
 export default function EditProfilePage() {
   const navigation = useNavigation();
-
   return (
     <View style = {styles.container}>
       <Text style = {styles.text}>Edit Profile coming soon</Text>
       <View style = {styles.buttonView}>
         <Pressable onPress={() => navigation.navigate("Test")}>
-          <Text style={styles.ButtonText}>Back to home</Text>
+          <Text style={styles.Buttontext}>Back to home</Text>
         </Pressable>
       </View>
     </View>

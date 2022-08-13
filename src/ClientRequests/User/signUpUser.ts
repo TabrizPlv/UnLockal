@@ -1,7 +1,8 @@
 import axios from "axios";
-import { NewUserDto } from "../../un-lockal-backend/dist/user/dtos/new-user.dto";
-import {ip} from './index'
+import { NewUserDto } from "../../../un-lockal-backend/dist/user/dtos/new-user.dto";
+import {ip} from '../index'
 
+//Signs up the user
 export async function handleSignUp(newUserDto : NewUserDto) {
   const url = "http://" + ip + ":3001/api/auth/register";
   return axios

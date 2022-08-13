@@ -15,9 +15,9 @@ import {
 
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from "@react-navigation/core";
-import { handleEditStore } from "../src/ClientRequests/editStore";
+import { handleEditStore } from "../../src/ClientRequests/Store/editStore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { getUserId } from "../src/User-Info-Functions";
+import { getUserId } from "../../src/User-Info-Functions";
 
 export default function EmptyStoreTemplate() {
   const [storeTitle, setStoreTitle] = useState("");

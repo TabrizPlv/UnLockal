@@ -3,7 +3,7 @@ import { EthPrice } from './SubInfo'
 import { COLORS, SIZES, FONTS } from '../assets/constants'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native'
-import { handleLogin } from '../src/ClientRequests/login'
+import { handleLogin } from '../src/ClientRequests/User/login'
 
 const DetailsBid = ({listing, seller}) => {
   const navigation = useNavigation();

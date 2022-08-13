@@ -1,7 +1,8 @@
 import axios from "axios";
-import { getUserEmail } from "../User-Info-Functions";
-import { ip } from "./index";
+import { getUserEmail } from "../../User-Info-Functions";
+import { ip } from "../index";
 
+//Get orders placed by the user
 export async function handleGetPlacedOrders() {
   const userEmail = await getUserEmail("userToken");
   const url =

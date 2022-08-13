@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import { FlatList, SafeAreaView, StyleSheet, Image, View } from "react-native";
-import { COLORS, NFTData } from "../assets/constants";
-import { NFTCard, MarketplaceHeader } from "../components";
-import { handleGetAllUsersWithListings } from "../src/ClientRequests/getAllUserWithListings";
+import { COLORS, NFTData } from "../../assets/constants";
+import { NFTCard, MarketplaceHeader } from "../../components";
+import { handleGetAllUsersWithListings } from "../../src/ClientRequests/Listing/getAllUserWithListings";
 
 export default function HomeScreenMarketPlace() {
 

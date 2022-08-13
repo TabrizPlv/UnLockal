@@ -1,7 +1,8 @@
 import axios from "axios";
-import { getUserId } from "../User-Info-Functions";
-import {ip} from './index'
+import { getUserId } from "../../User-Info-Functions";
+import {ip} from '../index'
 
+//Updates the store of the user
 export async function handleEditStore(storeDetails) {
   const userId = await getUserId("userToken");
   const url = "http://" + ip + ":3001/api/user/" + userId + "/create-store";

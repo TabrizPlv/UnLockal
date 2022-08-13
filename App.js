@@ -2,19 +2,19 @@ import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 //Screens
-import EmptyStoreTemplate from "./Screens/EmptyStoreTemplate";
-import EmptyStorePage from "./Screens/EmptyStorePage";
-import HomeScreenMarketPlace from "./Screens/HomeScreenMarketPlace";
+import EmptyStoreTemplate from "./Screens/Store/EmptyStoreTemplate";
+import EmptyStorePage from "./Screens/Store/EmptyStorePage";
+import HomeScreenMarketPlace from "./Screens/MarketPlace/HomeScreenMarketPlace";
 import MainContainer from './Screens/ProfilePageAsset/MainContainer';
-import LoginScreen from "./Screens/LoginScreen";
-import ListProductsPage from "./Screens/ListProductsPage";
-import UpdatedStorePage from './Screens/UpdatedStorePage';
-import EditProfilePage from "./Screens/EditProfilePage";
-import Details from "./Screens/Details";
+import LoginScreen from "./Screens/Login/LoginScreen";
+import ListProductsPage from "./Screens/ProfilePageAsset/ListProductsPage";
+import UpdatedStorePage from './Screens/Store/UpdatedStorePage';
+import EditProfilePage from "./Screens/ProfilePageAsset/EditProfilePage";
+import Details from "./Screens/MarketPlace/Details";
 import NewProfilePage from "./Screens/ProfilePageAsset/NewProfilePage";
-import FilledStorePage from "./Screens/FilledStorePage";
-import OrdersPage from "./Screens/OrdersPage";
-import ProductOrderPage from "./Screens/productorder";
+import FilledStorePage from "./Screens/Store/FilledStorePage";
+import OrdersPage from "./Screens/Order/OrdersPage";
+import ProductOrderPage from "./Screens/Order/productorder";
 
 const Stack = createNativeStackNavigator();
 

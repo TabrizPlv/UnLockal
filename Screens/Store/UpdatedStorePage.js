@@ -7,11 +7,10 @@ import {
   SafeAreaView,
   Dimensions,
   StatusBar,
-  ImageBackground,
 } from "react-native";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../../firebase";
 
 const auth = getAuth();
 
@@ -45,15 +44,10 @@ export default function UpdatedStorePage() {
       <View style={styles.StoreTitleView}>
         <Text style={styles.StoreTitleText}>{StoreTitle}</Text>
       </View>
-      {/* <ImageBackground
-        style={styles.ImageBg}
-        source={require("../assets/icon.png")}
-      > */}
         <Image
           style={styles.DefaultImage}
           source={{url : StoreImage}}
         />
-      {/* </ImageBackground> */}
       <View style={styles.DescriptionView}>
         <Text style={styles.DescriptionText}>{StoreDescription}</Text>
       </View>

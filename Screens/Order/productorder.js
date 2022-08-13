@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, TextInput, SafeAreaView } from 'react-native'
 import React, {useEffect, useState} from "react";
-import { handleCreateOrder } from '../src/ClientRequests/addOrder';
-import { getUserEmail } from '../src/User-Info-Functions';
+import { handleCreateOrder } from '../../src/ClientRequests/Order/addOrder';
+import { getUserEmail } from '../../src/User-Info-Functions';
 
 
 const ProductOrderPage = ({route, navigation}) => {

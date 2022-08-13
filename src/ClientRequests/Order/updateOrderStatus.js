@@ -1,6 +1,7 @@
 import axios from "axios";
-import { ip } from "./index";
+import { ip } from "../index";
 
+//Updates the status of the order
 export async function handleUpdateOrderStatus(orderId, newStatus) {
   const url =
   "http://" + ip + ":3001/api/order/" + orderId + "/update-order-status/" + newStatus;

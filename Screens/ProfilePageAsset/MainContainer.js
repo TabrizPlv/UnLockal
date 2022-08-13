@@ -1,14 +1,13 @@
 // This file is used for the bottom navigation bar implementation
 import * as React from "react";
-import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Screens
-import HomeScreenMarketPlace from '../HomeScreenMarketPlace';
+import HomeScreenMarketPlace from '../MarketPlace/HomeScreenMarketPlace';
 import NewProfilePage from "./NewProfilePage";
-import OrdersPage from "../OrdersPage";
-import OrdersPageSeller from "../OrdersPageSeller";
+import OrdersPage from "../Order/OrdersPage";
+import OrdersPageSeller from "../Order/OrdersPageSeller";
 
 //Screen names
 const HomeScreenName = 'Home';

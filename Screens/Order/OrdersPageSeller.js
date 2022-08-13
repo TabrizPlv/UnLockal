@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Text, View, StyleSheet, SafeAreaView, FlatList, TouchableOpacity} from 'react-native';
-import { handleGetPendingOrders } from '../src/ClientRequests/getPendingOrders';
-import {handleUpdateOrderStatus} from '../src/ClientRequests/updateOrderStatus';
+import { handleGetPendingOrders } from '../../src/ClientRequests/Order/getPendingOrders';
+import {handleUpdateOrderStatus} from '../../src/ClientRequests/Order/updateOrderStatus';
 
 
 const OrdersPage = () => {

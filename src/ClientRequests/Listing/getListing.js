@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { getUserId } from "../User-Info-Functions";
-import {ip} from './index'
+import { getUserId } from "../../User-Info-Functions";
+import {ip} from '../index'
 
+//Retrieves all listings of the user
 export async function handleGetListing() {
   const userId = await getUserId("userToken");
   const [listings, setListings] = useState([]);

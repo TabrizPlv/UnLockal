@@ -1,4 +1,6 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
+import { handleGetUserDetails } from "../../src/ClientRequests/User/getUserDetails";
+
 import {
   StyleSheet,
   Text,
@@ -10,25 +12,55 @@ import {
   StatusBar,
   Pressable,
   ImageBackground,
+  ActivityIndicator
 } from "react-native";
 
 import { useNavigation } from "@react-navigation/core";
 
-export default function EmptyStorePage() {
+export default function FilledStorePage() {
   const navigation = useNavigation();
+
+  const [data, setData] = useState(null);
+  useEffect(() => {
+      const helper = async () => {
+          setIsUploading(true);
+          const data1 = await handleGetUserDetails();
+          setData(data1);
+          setIsUploading(false);
+      };
+      helper();
+    }
+  , []);
+  const [isUploading, setIsUploading] = useState(false);
+
+  let storeTitle = "loading"
+  let storeDescription = "loading"
+  let storeURI = 'https://engineering.fb.com/wp-content/uploads/2016/04/yearinreview.jpg'
+  if (data) {
+    storeTitle = data.business.store.storeTitle
+    storeDescription = data.business.store.storeDescription;
+    storeURI = data.business.store.storeImageURL;
+  }
+
+
   return (
     <SafeAreaView style = {styles.overallContainer}>
        
       <StatusBar barStyle="dark-content" />
+      {isUploading && (
+          <ActivityIndicator size="large" style={styles.LoadingIndicator} />
+        )}
 
       <View style={styles.StoreTitleView}>
-        <Text style={styles.StoreTitleText}>No store name yet</Text>
+        <Text style={styles.StoreTitleText}>{storeTitle}</Text>
       </View>
-
+      <View style = {{height:300, width: 500, backgroundColor:'white'}}>
       <Image
           style={styles.DefaultImage}
-          source={require('../assets/icon.png')}
+          source={{uri: storeURI}}
       />
+      </View>
+
 
       <View style = {styles.aboutBusinessView}>
         <Text style = {styles.aboutBusinessText}>About the business</Text>
@@ -36,7 +68,7 @@ export default function EmptyStorePage() {
 
       <View style={styles.DescriptionView}>
         <Text style={styles.DescriptionText}>
-          No description yet
+          {storeDescription}
         </Text>
       </View>
 
@@ -64,6 +96,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginHorizontal: 10,
   },
+  LoadingIndicator: {
+    zIndex: 5,
+    width: "100%",
+    height: "100%",
+  },
   StoreTitleText: {
     fontSize: 30,
     color: "black",
@@ -72,9 +109,10 @@ const styles = StyleSheet.create({
   },
 
   DefaultImage: {
-    height: '50%',
-    width: '90%',
+    height: '100%',
+    width: '100%',
     alignSelf: "center",
+    resizeMode:'cover'
   },
 
   aboutBusinessView: {

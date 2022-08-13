@@ -7,17 +7,19 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import { useNavigation } from "@react-navigation/core";
-import { handleSignUp } from "../src/ClientRequests/signUpUser";
-import { handleLogin } from "../src/ClientRequests/login";
-import { save } from "../src/User-Info-Functions";
+import { handleSignUp } from "../../src/ClientRequests/User/signUpUser";
+import { handleLogin } from "../../src/ClientRequests/User/login";
+import { save } from "../../src/User-Info-Functions";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
 
+  //Takes in email and password, then logs user in
+  //saves JWT token generated into Expo Secure Store
   async function login(em, pw) {
     const loggingIn = await handleLogin({ email: em, password: pw })
       .then((response) => {
@@ -31,14 +33,17 @@ const LoginScreen = () => {
       .catch((error) => console.log(error));
   }
 
+  //Takes in email and password to register user
   function signup(em, pw) {
-    handleSignUp({ email: em, password: pw });
+    handleSignUp({ email: em, password: pw })
+      .then((response) => alert("Register Successful!"))
+      .catch((error) => alert("Error with register. Try again!"));
   }
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
       <View style={styles.logo}>
-        <Image source={require("../assets/unlockalLogo.png")} />
+        <Image source={require("../../assets/unlockalLogo.png")} />
       </View>
 
       <View style={styles.inputContainer}>

@@ -1,6 +1,6 @@
 import React from "react";
 import { FlatList } from "react-native";
-import { handleGetListing } from "../../ClientRequests/getListing";
+import { handleGetListing } from "../../ClientRequests/Listing/getListing";
 import { ListingInfo } from "./Listing-info";
 
 export default function Listing() {

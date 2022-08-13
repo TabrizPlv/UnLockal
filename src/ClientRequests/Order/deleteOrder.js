@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ip } from "./index";
+import { ip } from "../index";
 
 export async function handleDeleteOrder(orderId) {
   const url = "http://" + ip + ":3001/api/order/" + orderId + "/delete-order";
