@@ -4,7 +4,7 @@ import { Store } from 'src/business/schemas/store.schema';
 import { Model } from 'mongoose';
 import { UserDocument } from './schemas/user.schema';
 import { UserDetails } from './dtos/user-details.interface';
-import { Listing } from 'src/business/listing/schemas/listing.schema';
+import { Listing } from 'src/business/schemas/listing.schema';
 
 @Injectable()
 export class UserService {

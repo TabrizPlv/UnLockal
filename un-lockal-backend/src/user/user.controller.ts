@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserDetails } from './dtos/user-details.interface';
 import { Store } from 'src/business/schemas/store.schema';
-import { Listing } from 'src/business/listing/schemas/listing.schema';
+import { Listing } from 'src/business/schemas/listing.schema';
 import { User } from './schemas/user.schema';
 import { Document } from 'mongoose';
 
